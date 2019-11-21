@@ -49,7 +49,7 @@ bool THashCliente::inserta(const std::string& dni, Cliente &cli){
             else
                 final=p;
             taml++;
-            v[final].dato.GetDNI()=dni;
+            v[final].dni=dni;
             v[final].marca=ocupada;
             v[final].clave=clave;                             
             v[final].dato=cli;  //push_back(dato);                                                
