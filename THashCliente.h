@@ -139,13 +139,11 @@ public:
 
     //devuelve el tamaño fisico de la tabla
     unsigned int tamanio(){return tamafisico;}
-    
-    int unsigned totalClientes(){
+    unsigned int numClientes(){
        unsigned int x=0;
        x=v.size();
        return x;
-    };
-    
+    };    
     int terminos(){return nterm;};
     int maxcolisiones(){return maxcoli;}
     float colisionesMedias(){return (float)totalcoli/nterm;}
