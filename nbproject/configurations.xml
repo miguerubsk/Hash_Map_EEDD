@@ -8,6 +8,7 @@
       <itemPath>EcoCityMoto.h</itemPath>
       <itemPath>Itinerario.h</itemPath>
       <itemPath>Moto.h</itemPath>
+      <itemPath>THashCliente.h</itemPath>
       <itemPath>UTM.h</itemPath>
       <itemPath>fecha.h</itemPath>
     </logicalFolder>
@@ -66,6 +67,8 @@
       </item>
       <item path="Moto.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="THashCliente.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="UTM.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="fecha.cpp" ex="false" tool="1" flavor2="0">
@@ -110,6 +113,8 @@
       <item path="Moto.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Moto.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="THashCliente.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="UTM.h" ex="false" tool="3" flavor2="0">
       </item>
