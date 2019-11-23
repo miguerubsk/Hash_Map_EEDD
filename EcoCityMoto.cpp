@@ -199,6 +199,7 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                     }
                     std::pair <std::string, Cliente> par(client.GetDNI(), client);
                     clientes.insert(par);
+                    //clientesTHash.inserta(client.GetDNI(), client);
                     //                if (total % 100 == 0) {
                     //                    cout << "Leido cliente " << total << "\n  ";
                     //                }
@@ -206,7 +207,8 @@ void EcoCityMoto::cargarClientes(std::string filename) {
             }
             //   getline(fe, linea);
         }
-        cout << "Total de clientes en el fichero: " << clientes.size() << endl;
+        cout << "Total de clientes en el fichero (mapa): " << clientes.size() << endl;        
+        //cout << "Total de clientes en el fichero (tabla hash): " << clientesTHash.totalClientes() << endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         cerr << "No se puede abrir el fichero" << endl;
@@ -291,12 +293,13 @@ Cliente* EcoCityMoto::buscarCliente(std::string dni) {
  * @return devuelve verdadero o falso segun si el cliente existe ya o no
  **/
 bool EcoCityMoto::nuevoCliente(Cliente& c) {
-    std::map<std::string, Cliente>::iterator i = clientes.find(c.GetDNI());
-    if (i != clientes.end()) {
-        throw std::invalid_argument("El cliente ya existe");
-    }
-    clientes[c.GetDNI()] = c;
-    return true;
+//    std::map<std::string, Cliente>::iterator i = clientes.find(c.GetDNI());
+//    if (i != clientes.end()) {
+//        throw std::invalid_argument("El cliente ya existe");
+//    }
+//    clientes[c.GetDNI()] = c;
+//    return true;
+    //clientesTHash.inserta(c.GetDNI(), c);
 }
 
 /**
@@ -305,12 +308,13 @@ bool EcoCityMoto::nuevoCliente(Cliente& c) {
  * @return devuelve verdadero o falso segun si el cliente existe ya o no
  **/
 bool EcoCityMoto::eliminarCliente(Cliente& c) {
-    std::map<std::string, Cliente>::iterator i = clientes.find(c.GetDNI());
-    if (i != clientes.end()) {
-        clientes.erase(i);
-        return true;
-    }
-    throw std::invalid_argument("El cliente no existe");
+//    std::map<std::string, Cliente>::iterator i = clientes.find(c.GetDNI());
+//    if (i != clientes.end()) {
+//        clientes.erase(i);
+//        return true;
+//    }
+//    throw std::invalid_argument("El cliente no existe");
+    //clientesTHash.borra(c.GetDNI());
 }
 
 /**
@@ -425,3 +429,7 @@ Moto* EcoCityMoto::GetMotoRand() {
     int aux = rand() % 1000;
     return &(motos[aux]);
 }
+
+//THashCliente EcoCityMoto::GetClientesTHash() const {
+//    return clientesTHash;
+//}

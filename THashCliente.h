@@ -16,20 +16,19 @@
 
 #include "Cliente.h"
 #include <vector>
-
+class Cliente;
 enum Estado {
     vacia, disponible, ocupada
 };
 
 class Entrada {
 public:
+    Cliente dato;
     long clave;
     std::string dni;
     Estado marca;
-    Cliente dato;
 
-    Entrada(): marca(vacia), clave(0), dni(""), dato(Cliente()) {}
-
+    Entrada(): marca(vacia), clave(0), dni(""), dato() {}
     ~Entrada() {
     };
 };

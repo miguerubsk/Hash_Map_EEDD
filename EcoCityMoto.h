@@ -14,7 +14,8 @@
 #ifndef ECOCITYMOTO_H
 #define ECOCITYMOTO_H
 
-#include "Moto.h"
+//#include "THashCliente.h"
+//#include "Moto.h"
 #include <vector>
 #include <map>
 #include <fstream>
@@ -22,6 +23,7 @@
 #include <string>
 #include <iostream>
 #include "Cliente.h"
+//#include "THashCliente.h"
 
 class Moto;
 
@@ -41,6 +43,7 @@ public:
     std::vector<Moto>* GetMotos();
     std::vector<Moto> localizaMotosSinBateria();
     Moto* GetMotoRand();
+    //THashCliente GetClientesTHash() const;
 
 
 private:
@@ -48,6 +51,7 @@ private:
     unsigned int idUltimo;
     std::vector<Moto> motos;
     std::map<std::string, Cliente> clientes;
+    //THashCliente clientesTHash;
 
     void cargarClientes(std::string filename);
     void cargarMotos(std::string filename);
