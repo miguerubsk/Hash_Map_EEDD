@@ -43,16 +43,29 @@ private:
 
     bool EsPrimo(unsigned n);
 
-    inline unsigned int fcuadratica(unsigned long int clave, int i) {
-        unsigned long int y = clave + pow(i, 2);
-        return y % tamf;
+    inline unsigned int hash(unsigned long int clave, int i) {
+        unsigned long posicionfinal;
+        posicionfinal= (clave+(i*i)) % tamf;
+        return posicionfinal;
     };
 
-    inline unsigned int fdoble(unsigned long int clave, int i) {
-        return ((clave % tamf) + (i * (primorelativo - (clave % (primorelativo))))) % tamf;
+    inline unsigned int hash2(unsigned long int clave, int i) {
+        unsigned long posicion,posicionfinal;
+        posicion = clave % tamf;
+        posicionfinal = (posicion + (i* (primorelativo-(clave % (primorelativo))))) % tamf;
+        return posicionfinal;
+    }
+    
+    unsigned hash3(unsigned clave, int i) {
+        unsigned long posicion,posicionfinal;
+
+        posicion = clave % tamf;
+        posicionfinal = (posicion + (i* (1+(clave % (primorelativo))))) % tamf;
+        return posicionfinal;
     }
     
     vector<string> getDNIClientes();
+    
 unsigned long djb2(const unsigned char *str){
    unsigned long hash = 5381;
    int c;
