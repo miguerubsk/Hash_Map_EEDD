@@ -258,19 +258,20 @@ void EcoCityMoto::cargarMotos(std::string filename) {
                 //Leemos la latitud y longitud
                 getline(ss, latitud, ';'); //El carater ; se lee y se elimina de ss
                 getline(ss, longitud, ';'); //El carater ; se lee y se elimina de ss
-                getline(ss, bateria, ';');
+                //getline(ss, bateria, ';'); ***************************************************************
 
                 dlat = stod(latitud);
                 dlon = stod(longitud);
                 int aux = stoi(estado);
-                if(bateria==""){
-                    bateria=100;
-                }else{
-                    bateriaAux = stof(bateria);
-                }
+//                if(bateria==""){
+//                    bateria=100;
+//                }else{                     ***************************************************************   
+//                    bateriaAux = stof(bateria);
+//                }
 
                 //con todos los atributos leidos, se crea la moto
-                Moto moto(mat, dlat, dlon, aux, bateriaAux);
+                //Moto moto(mat, dlat, dlon, aux, bateriaAux);**********************************************    
+                Moto moto(mat, dlat, dlon, aux);
                 motos.push_back(moto);
                 //                if (total % 100 == 0) {
                 //                    std::cout << "Leida moto " << total << "\n  ";
@@ -523,7 +524,7 @@ void EcoCityMoto::guardarMotos(string fileName){
                     << to_string(motos[i].getEstado()) << ";"
                     << to_string(motos[i].getPosicion().GetLatitud()) << ";"
                     << to_string(motos[i].getPosicion().GetLongitud()) << ";"
-                    << to_string((int)motos[i].getPorcentajeBateria());
+                    << to_string((int)motos[i].getPorcentajeBateria())<<endl;
         }
         fichero.close();
     }else{
