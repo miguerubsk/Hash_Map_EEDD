@@ -54,6 +54,7 @@ private:
     void cargarClientes(std::string filename);
     void cargarMotos(std::string filename);
     void guardaClientesItinerarios(std::string fileName);
+    void guardaClientesItinerariosHash(std::string fileName);
 };
 
 #endif /* ECOCITYMOTO_H */

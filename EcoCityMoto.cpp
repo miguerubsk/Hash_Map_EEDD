@@ -448,3 +448,57 @@ Moto* EcoCityMoto::GetMotoRand() {
 THashCliente EcoCityMoto::GetClientesTHash() const {
     return clientesTHash;
 }
+
+void EcoCityMoto::guardaClientesItinerariosHash(std::string fileName) {
+    ofstream fs; //Flujo de salida
+
+
+    //Variables auxiliares para almacenar los valores leídos
+    int total = 0;
+    //Asociamos el flujo al fichero 
+    fs.open(fileName, ofstream::trunc);
+
+    if (fs.good()) {
+        map<string, Cliente>::iterator it = clientes.begin();
+        fs << "NIF;clave;nomape;dirección;latitud;longitud;nIti" << endl;
+        while (it != clientes.end()) {
+            total++;
+            //            if(total%100==0)
+            //                cout<<"Guardado cliente "<<total<<endl;
+            Cliente cli = it->second;
+
+            // if (cli.GetDni()=="52525252X")
+            //   cout << ",";
+            list<Itinerario> r = cli.getItinerario();
+            list<Itinerario>::iterator it2 = r.begin();
+            fs << cli.GetDNI() << ";" << cli.getPass() << ";" << cli.GetNOMBRE() << ";" <<
+                    cli.GetDIRECCION() << ";" << cli.getPosicion().GetLatitud() << ";" <<
+                    cli.getPosicion().GetLongitud() << ";" << cli.getItinerario().size() << endl;
+            while (it2 != r.end()) {
+                fs << it2->GetId() << ";" //Se escribe el id del 
+                        //Se escribe la fecha
+                        << it2->GetFecha().verDia() << ";" //Se escribe el dia
+                        << it2->GetFecha().verMes() << ";" //se escribe el mes
+                        << it2->GetFecha().verAnio() << ";" //Se escribe el año
+                        << it2->GetFecha().verHora() << ";" //se escribe la hora
+                        << it2->GetFecha().verMin() << ";" //Se escriben los minutos
+                        //Se escribe la duracion del itinerario
+                        << it2->GetMinutos() << ";" //Se escriben los minutos
+                        //Se escribe la posicion de inicio
+                        << it2->GetInicio().GetLatitud() << ";" //Se escribe la latitud
+                        << it2->GetInicio().GetLongitud() << ";" //Se escribe la longitud
+                        //Se escribe la posicion de fin
+                        << it2->GetFin().GetLatitud() << ";" //Se escribe la latitud
+                        << it2->GetFin().GetLongitud() << ";" //Se escribe la longitu
+                        //Se escribe la moto
+                        << it2->GetVehiculos()->GetId() << endl; //Se escribe la matrícula
+                it2++;
+            }
+            it++;
+        }
+
+        fs.close(); //Cerramos el flujo de entrada        
+    } else {
+        std::cerr << "No se puede crear el fichero" << endl;
+    }
+}
