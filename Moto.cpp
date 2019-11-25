@@ -156,14 +156,13 @@ std::string Moto::GetId() const {
 
 Moto::Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria) :
 id(_id), posicion(_latitud, _longitud) {
-    if ((_porcentajeBateria > 100 || _porcentajeBateria < 0) && _porcentajeBateria != UINT_MAX) throw std::string("Moto::Moto: la bateria tiene que estar entre 0 y 100.");
-
-    if (_porcentajeBateria == UINT_MAX) {
-        srand(time(NULL) + stoi(_id));
-        porcentajeBateria = 0 + rand() % (100 - 0);
-    } else {
+    if (_porcentajeBateria <= 100 || _porcentajeBateria >= 0){
         porcentajeBateria = _porcentajeBateria;
+    }else{
+        porcentajeBateria = 100;
     }
+
+    
     switch (_estado) {
         case 0: estado = BLOQUEADA;
             break;

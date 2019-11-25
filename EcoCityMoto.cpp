@@ -34,6 +34,7 @@ EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : clientes(orig.clientes), idU
  **/
 EcoCityMoto::~EcoCityMoto() {
     //guardaClientesItinerarios("prueba.sav");
+    guardarMotos("prueba.nsp");
 }
 
 /**
@@ -223,9 +224,9 @@ void EcoCityMoto::cargarClientes(std::string filename) {
 void EcoCityMoto::cargarMotos(std::string filename) {
     std::ifstream fe; //Flujo de entrada
     std::string linea; //Cada linea tiene un clienete
-    int total = 0; //Contador de lineas o clientes
+    int total = 0, bateriaAux; //Contador de lineas o clientes
     //Variables auxiliares para almacenar los valores leidos
-    std::string mat, latitud, longitud, estado;
+    std::string mat, latitud, longitud, estado, bateria;
     double dlat, dlon;
     //Asociamos el flujo al fichero 
     fe.open(filename);
@@ -256,13 +257,19 @@ void EcoCityMoto::cargarMotos(std::string filename) {
                 //Leemos la latitud y longitud
                 getline(ss, latitud, ';'); //El carater ; se lee y se elimina de ss
                 getline(ss, longitud, ';'); //El carater ; se lee y se elimina de ss
+                getline(ss, bateria, ';');
 
                 dlat = stod(latitud);
                 dlon = stod(longitud);
                 int aux = stoi(estado);
+                if(bateria==""){
+                    bateria=100;
+                }else{
+                    bateriaAux = stof(bateria);
+                }
 
                 //con todos los atributos leidos, se crea la moto
-                Moto moto(mat, dlat, dlon, aux);
+                Moto moto(mat, dlat, dlon, aux, bateriaAux);
                 motos.push_back(moto);
                 //                if (total % 100 == 0) {
                 //                    std::cout << "Leida moto " << total << "\n  ";
@@ -500,5 +507,25 @@ void EcoCityMoto::guardaClientesItinerariosHash(std::string fileName) {
         fs.close(); //Cerramos el flujo de entrada        
     } else {
         std::cerr << "No se puede crear el fichero" << endl;
+    }
+}
+
+void EcoCityMoto::guardarMotos(string fileName){
+    ofstream fichero;
+    
+    fichero.open(fileName, ofstream::trunc);
+    
+    if(fichero.good()){
+        fichero << "matricula;estado;lat;long;porcentajeBateria" << endl;
+        for(int i = 0; i < motos.size(); ++i){
+            fichero << motos[i].GetId() << ";"
+                    << to_string(motos[i].getEstado()) << ";"
+                    << to_string(motos[i].getPosicion().GetLatitud()) << ";"
+                    << to_string(motos[i].getPosicion().GetLongitud()) << ";"
+                    << to_string((int)motos[i].getPorcentajeBateria());
+        }
+        fichero.close();
+    }else{
+        std::invalid_argument("No se puede abrir el fichero");
     }
 }
