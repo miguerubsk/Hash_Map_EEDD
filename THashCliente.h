@@ -87,6 +87,7 @@ public:
     int maxcolisiones(){return maxcoli;}
     float colisionesMedias(){return (float)totalColisiones/taml;}
     float carga(){return (float)taml/tamf;}
+    void redispersar (unsigned long tam);
 };
 
 #endif /* THASHCLIENTE_H */

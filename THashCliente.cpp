@@ -151,3 +151,35 @@ int THashCliente::PrimoPorDebajo(unsigned x) {
     }
     return x;
 }
+
+void THashCliente::redispersar (unsigned long tam){
+    //unsigned int tam= tabla.size()*2;
+    vector<Entrada> aux(tam,Entrada());
+    tamf=tam;
+    totalColisiones=0;
+    primorelativo=PrimoPorDebajo(tamf);
+    for (int i=0; i<v.size(); i++){       
+        unsigned intento=0,y;
+        bool encontrado = false;
+        if (v[i].marca==ocupada){           
+            //unsigned long clave=djb2((unsigned char*)tabla[i].dni.c_str());
+            while (!encontrado) {
+                y=hash2(v[i].clave, intento);           
+                if (aux[y].marca==vacia || aux[y].marca==disponible) {                 
+                    aux[y].dni=v[i].dni;
+                    aux[y].marca=ocupada;
+                    aux[y].clave=v[i].clave;                             
+                    aux[y].dato=v[i].dato;  //push_back(dato);                                                
+                    encontrado = true;   //Encontre un sitio libre  
+                }else
+                    
+                    ++intento;   //No he dado aun con una posicion libre
+            }
+            //std::cout << "Intentos " << i << std::endl; 
+            totalColisiones+=intento;
+            if (!encontrado)
+                cout << " Cliente no insertado: " << v[i].dni << endl  ; 
+        } 
+    }
+    v=aux;       
+}
