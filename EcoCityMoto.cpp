@@ -19,7 +19,8 @@
  **/
 EcoCityMoto::EcoCityMoto() : idUltimo(0), clientes(), motos(), clientesTHash(16000) {
     cargarMotos("motos.txt");
-    //cargarClientes("prueba.sav");
+    //cargarMotos("prueba.motos");
+    //cargarClientes("prueba.clientes");
     cargarClientes("clientes_v2.csv");
 }
 
@@ -33,8 +34,8 @@ EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : clientes(orig.clientes), idU
  * @brief destructor correspondiente de EcoCityMoto
  **/
 EcoCityMoto::~EcoCityMoto() {
-    //guardaClientesItinerarios("prueba.sav");
-    guardarMotos("prueba.nsp");
+    guardaClientesItinerariosHash("prueba.clientes");
+    guardarMotos("prueba.motos");
 }
 
 /**
