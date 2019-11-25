@@ -10,3 +10,4 @@ nbproject/private/configurations.xml
 nbproject/private/cpp_standard_headers_indexer.cpp
 nbproject/private/launcher.properties
 stl_eedd.exe.stackdump
+*.stackdump

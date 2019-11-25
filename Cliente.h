@@ -15,17 +15,15 @@
 #define CLIENTE_H
 
 
-#include "Itinerario.h"
-//#include "EcoCityMoto.h"
-#include <list>
-#include <iostream>
-#include <math.h>
+#include <string>
+#include "UTM.h"
 #include <random>
 #include <ctime>
-#include <stdlib.h>
-#include <time.h>
+#include <iostream>
+#include <list>
+#include "Itinerario.h"
 
-class EcoCityMoto;
+class EcoCityMoto;      //forward
 
 using namespace std;
 
@@ -35,6 +33,7 @@ private:
     string pass;
     string nombre;
     string direccion;
+    string display;
     list<Itinerario> rutas;
     EcoCityMoto *acceso;
     UTM posicion;
@@ -59,10 +58,12 @@ public:
         return dni;
     }
     
-        string& GetDNI2(){
-        return dni;
+    string& GetDNI2(){
+    return dni;
     }
 
+    string getDisplay();
+    
     string GetNOMBRE() const {
         return nombre;
     }
@@ -134,6 +135,7 @@ public:
     void terminarTrayecto();
     Moto * buscarMotoCercana();
     list<Itinerario>& getItinerario();
+    void mostrarMensaje(string aviso);
 
     friend ostream& operator<<(ostream & os, const Cliente & obj);
     std::string GuardaCliente();

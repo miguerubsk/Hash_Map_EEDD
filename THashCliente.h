@@ -63,7 +63,7 @@ private:
         return posicionfinal;
     }
     
-    vector<string> getDNIClientes();
+    
     
 unsigned long djb2(const unsigned char *str){
    unsigned long hash = 5381;
@@ -79,11 +79,12 @@ public:
     bool inserta(const std::string& dni, Cliente &cli);
     bool borra(long int clave);
     bool borracliente(string& dni);
-    bool busca(const std::string &dni, Cliente* &cli);    
+    bool busca(const std::string &dni, Cliente* &cli);
+    vector<string> iterar();
 
     //devuelve el tamaño fisico de la tabla
     unsigned int tamanio(){return tamf;}
-    int unsigned totalClientes(){return taml;}
+    unsigned int totalClientes(){return taml;}
     int maxcolisiones(){return maxcoli;}
     float colisionesMedias(){return (float)totalColisiones/taml;}
     float carga(){return (float)taml/tamf;}

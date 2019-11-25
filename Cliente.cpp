@@ -99,6 +99,7 @@ void Cliente::terminarTrayecto() {
     //rutas.back().SetMinutos((fechafin.verHora()*60 + fechafin.verMin()) - (rutas.back().GetFecha().verHora()*60 + rutas.back().GetFecha().verMin()));
     rutas.back().SetFin(posicion);
     rutas.back().GetVehiculos()->setPosicion(posicion);
+    rutas.back().GetVehiculos()->darAviso();
     rutas.back().GetVehiculos()->seDesactiva();
     rutas.back().GetVehiculos()->setPorcentajeBateria((rutas.back().GetVehiculos()->getPorcentajeBateria()) - (float) aux);
 }
@@ -142,6 +143,10 @@ std::string Cliente::GuardaCliente() {
     return lineadatos;
 }
 
+string Cliente::getDisplay(){
+    return display;
+}
+
 /**
  * @brief funcion get para la posicion del clieente
  * @return devuelve el valor de posicion
@@ -156,4 +161,8 @@ UTM Cliente::getPosicion() const {
  **/
 string Cliente::getPass() const {
     return pass;
+}
+
+void Cliente::mostrarMensaje(string aviso){
+    display=aviso;
 }

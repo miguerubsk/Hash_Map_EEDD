@@ -12,29 +12,40 @@
  */
 
 #include "EcoCityMoto.h"
-#include "Moto.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
 
 /**
  * @brief contrusctor por defecto de EcoCityMoto
  **/
-EcoCityMoto::EcoCityMoto() : idUltimo(0), clientes(), motos(), clientesTHash(16000) {
+EcoCityMoto::EcoCityMoto() : idUltimo(0), motos(), clientes(16000) {
     cargarMotos("motos.txt");
     //cargarMotos("prueba.motos");
     //cargarClientes("prueba.clientes");
     cargarClientes("clientes_v2.csv");
 }
 
+THashCliente& EcoCityMoto::getClientes(){
+    return clientes;
+}
+
+vector<string> EcoCityMoto::getDNIClientes(){
+    return clientes.iterar();
+}
+
 /**
  * @brief funcion del contructor copia de EcoCityMoto
  **/
-EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : clientes(orig.clientes), idUltimo(orig.idUltimo), motos(orig.motos), clientesTHash(16000) {
+EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : idUltimo(orig.idUltimo), motos(orig.motos), clientes(orig.clientes) {
 }
 
 /**
  * @brief destructor correspondiente de EcoCityMoto
  **/
 EcoCityMoto::~EcoCityMoto() {
-    guardaClientesItinerariosHash("prueba.clientes");
+    guardaClientesItinerarios("prueba.clientes");
     guardarMotos("prueba.motos");
 }
 
@@ -74,7 +85,7 @@ void EcoCityMoto::desbloqueaMoto(Moto *moto, Cliente *cli) {
  * @param A es el nombre del fichero
  **/
 void EcoCityMoto::cargarClientes(std::string filename) {
-    ifstream fe; //Flujo de entrada
+    std::ifstream fe; //Flujo de entrada
     string linea; //Cada linea tiene un clienete
     int total = 1; //Contador de lineas o clientes
 
@@ -190,7 +201,7 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                             //Buscamos la moto
                             Moto *motoaux = 0;
                             for (int i = 0; i < motos.size(); i++) {
-                                if (motos[i].getId() == moto) {
+                                if (motos[i].GetId() == moto) {
                                     motoaux = &motos[i];
                                     break;
                                 }
@@ -201,8 +212,8 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                         }
                     }
                     std::pair <std::string, Cliente> par(client.GetDNI(), client);
-                    clientes.insert(par);
-                    clientesTHash.inserta(client.GetDNI(), client);
+//                    clientes.insert(par);
+                    clientes.inserta(client.GetDNI(), client);
                     //                if (total % 100 == 0) {
                     //                    cout << "Leido cliente " << total << "\n  ";
                     //                }
@@ -210,8 +221,8 @@ void EcoCityMoto::cargarClientes(std::string filename) {
             }
             //   getline(fe, linea);
         }
-        cout << "Total de clientes en el fichero (mapa): " << clientes.size() << endl;        
-        cout << "Total de clientes en el fichero (tabla hash): " << clientesTHash.totalClientes() << endl;
+//        cout << "Total de clientes en el fichero (mapa): " << clientes.size << endl;        
+        cout << "Total de clientes en el fichero (tabla hash): " << clientes.totalClientes() << endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         cerr << "No se puede abrir el fichero" << endl;
@@ -296,7 +307,7 @@ Cliente* EcoCityMoto::buscarCliente(std::string dni) {
 //    }
 //    throw std::invalid_argument("No se ha encontrado al cliente");
     Cliente *c;
-    if(clientesTHash.busca(dni, c)){
+    if(clientes.busca(dni, c)){
         return c;
     }else{
         return 0;
@@ -315,7 +326,7 @@ bool EcoCityMoto::nuevoCliente(Cliente& c) {
 //    }
 //    clientes[c.GetDNI()] = c;
 //    return true;
-    if(clientesTHash.inserta(c.GetDNI(), c)){
+    if(clientes.inserta(c.GetDNI(), c)){
         return true;
     }else{
         return false;
@@ -334,7 +345,7 @@ bool EcoCityMoto::eliminarCliente(Cliente& c) {
 //        return true;
 //    }
 //    throw std::invalid_argument("El cliente no existe");
-    if(clientesTHash.borracliente(c.GetDNI2())){
+    if(clientes.borracliente(c.GetDNI2())){
         return true;
     }else{
         return false;
@@ -363,23 +374,28 @@ void EcoCityMoto::guardaClientesItinerarios(std::string fileName) {
     fs.open(fileName, ofstream::trunc);
 
     if (fs.good()) {
-        map<string, Cliente>::iterator it = clientes.begin();
+        vector<string> DNI = getDNIClientes();
         fs << "NIF;clave;nomape;dirección;latitud;longitud;nIti" << endl;
-        while (it != clientes.end()) {
+        for (int i = 0; i< DNI.size(); ++i) {
             total++;
             //            if(total%100==0)
             //                cout<<"Guardado cliente "<<total<<endl;
-            Cliente cli = it->second;
+            Cliente *cli;
+            clientes.busca(DNI[i], cli);
 
             // if (cli.GetDni()=="52525252X")
             //   cout << ",";
-            list<Itinerario> r = cli.getItinerario();
+            list<Itinerario> r = cli->getItinerario();
             list<Itinerario>::iterator it2 = r.begin();
-            fs << cli.GetDNI() << ";" << cli.getPass() << ";" << cli.GetNOMBRE() << ";" <<
-                    cli.GetDIRECCION() << ";" << cli.getPosicion().GetLatitud() << ";" <<
-                    cli.getPosicion().GetLongitud() << ";" << cli.getItinerario().size() << endl;
+            fs      << cli->GetDNI() << ";" 
+                    << cli->getPass() << ";" 
+                    << cli->GetNOMBRE() << ";" 
+                    << cli->GetDIRECCION() << ";" 
+                    << cli->getPosicion().GetLatitud() << ";" 
+                    << cli->getPosicion().GetLongitud() << ";" 
+                    << cli->getItinerario().size() << endl;
             while (it2 != r.end()) {
-                fs << it2->GetId() << ";" //Se escribe el id del 
+                fs      << it2->GetId() << ";" //Se escribe el id del 
                         //Se escribe la fecha
                         << it2->GetFecha().verDia() << ";" //Se escribe el dia
                         << it2->GetFecha().verMes() << ";" //se escribe el mes
@@ -398,7 +414,6 @@ void EcoCityMoto::guardaClientesItinerarios(std::string fileName) {
                         << it2->GetVehiculos()->GetId() << endl; //Se escribe la matrícula
                 it2++;
             }
-            it++;
         }
 
         fs.close(); //Cerramos el flujo de entrada        
@@ -407,13 +422,7 @@ void EcoCityMoto::guardaClientesItinerarios(std::string fileName) {
     }
 }
 
-/**
- * @brief funcion para devolver el mapa de clientes
- * @return devuelve el mapa de clientes
- **/
-std::map<std::string, Cliente>& EcoCityMoto::getCliente() {
-    return clientes;
-}
+
 
 /**
  * @brief funciom get para el idUltimo
@@ -454,63 +463,63 @@ Moto* EcoCityMoto::GetMotoRand() {
     return &(motos[aux]);
 }
 
-THashCliente EcoCityMoto::GetClientesTHash() const {
-    return clientesTHash;
-}
+//THashCliente EcoCityMoto::GetClientes() const {
+//    return clientes;
+//}
 
-void EcoCityMoto::guardaClientesItinerariosHash(std::string fileName) {
-    ofstream fs; //Flujo de salida
-
-
-    //Variables auxiliares para almacenar los valores leídos
-    int total = 0;
-    //Asociamos el flujo al fichero 
-    fs.open(fileName, ofstream::trunc);
-
-    if (fs.good()) {
-        map<string, Cliente>::iterator it = clientes.begin();
-        fs << "NIF;clave;nomape;dirección;latitud;longitud;nIti" << endl;
-        while (it != clientes.end()) {
-            total++;
-            //            if(total%100==0)
-            //                cout<<"Guardado cliente "<<total<<endl;
-            Cliente cli = it->second;
-
-            // if (cli.GetDni()=="52525252X")
-            //   cout << ",";
-            list<Itinerario> r = cli.getItinerario();
-            list<Itinerario>::iterator it2 = r.begin();
-            fs << cli.GetDNI() << ";" << cli.getPass() << ";" << cli.GetNOMBRE() << ";" <<
-                    cli.GetDIRECCION() << ";" << cli.getPosicion().GetLatitud() << ";" <<
-                    cli.getPosicion().GetLongitud() << ";" << cli.getItinerario().size() << endl;
-            while (it2 != r.end()) {
-                fs << it2->GetId() << ";" //Se escribe el id del 
-                        //Se escribe la fecha
-                        << it2->GetFecha().verDia() << ";" //Se escribe el dia
-                        << it2->GetFecha().verMes() << ";" //se escribe el mes
-                        << it2->GetFecha().verAnio() << ";" //Se escribe el año
-                        << it2->GetFecha().verHora() << ";" //se escribe la hora
-                        << it2->GetFecha().verMin() << ";" //Se escriben los minutos
-                        //Se escribe la duracion del itinerario
-                        << it2->GetMinutos() << ";" //Se escriben los minutos
-                        //Se escribe la posicion de inicio
-                        << it2->GetInicio().GetLatitud() << ";" //Se escribe la latitud
-                        << it2->GetInicio().GetLongitud() << ";" //Se escribe la longitud
-                        //Se escribe la posicion de fin
-                        << it2->GetFin().GetLatitud() << ";" //Se escribe la latitud
-                        << it2->GetFin().GetLongitud() << ";" //Se escribe la longitu
-                        //Se escribe la moto
-                        << it2->GetVehiculos()->GetId() << endl; //Se escribe la matrícula
-                it2++;
-            }
-            it++;
-        }
-
-        fs.close(); //Cerramos el flujo de entrada        
-    } else {
-        std::cerr << "No se puede crear el fichero" << endl;
-    }
-}
+//void EcoCityMoto::guardaClientesItinerariosHash(std::string fileName) {
+//    ofstream fs; //Flujo de salida
+//
+//
+//    //Variables auxiliares para almacenar los valores leídos
+//    int total = 0;
+//    //Asociamos el flujo al fichero 
+//    fs.open(fileName, ofstream::trunc);
+//
+//    if (fs.good()) {
+//        map<string, Cliente>::iterator it = clientes.begin();
+//        fs << "NIF;clave;nomape;dirección;latitud;longitud;nIti" << endl;
+//        while (it != clientes.end()) {
+//            total++;
+//            //            if(total%100==0)
+//            //                cout<<"Guardado cliente "<<total<<endl;
+//            Cliente cli = it->second;
+//
+//            // if (cli.GetDni()=="52525252X")
+//            //   cout << ",";
+//            list<Itinerario> r = cli.getItinerario();
+//            list<Itinerario>::iterator it2 = r.begin();
+//            fs << cli.GetDNI() << ";" << cli.getPass() << ";" << cli.GetNOMBRE() << ";" <<
+//                    cli.GetDIRECCION() << ";" << cli.getPosicion().GetLatitud() << ";" <<
+//                    cli.getPosicion().GetLongitud() << ";" << cli.getItinerario().size() << endl;
+//            while (it2 != r.end()) {
+//                fs << it2->GetId() << ";" //Se escribe el id del 
+//                        //Se escribe la fecha
+//                        << it2->GetFecha().verDia() << ";" //Se escribe el dia
+//                        << it2->GetFecha().verMes() << ";" //se escribe el mes
+//                        << it2->GetFecha().verAnio() << ";" //Se escribe el año
+//                        << it2->GetFecha().verHora() << ";" //se escribe la hora
+//                        << it2->GetFecha().verMin() << ";" //Se escriben los minutos
+//                        //Se escribe la duracion del itinerario
+//                        << it2->GetMinutos() << ";" //Se escriben los minutos
+//                        //Se escribe la posicion de inicio
+//                        << it2->GetInicio().GetLatitud() << ";" //Se escribe la latitud
+//                        << it2->GetInicio().GetLongitud() << ";" //Se escribe la longitud
+//                        //Se escribe la posicion de fin
+//                        << it2->GetFin().GetLatitud() << ";" //Se escribe la latitud
+//                        << it2->GetFin().GetLongitud() << ";" //Se escribe la longitu
+//                        //Se escribe la moto
+//                        << it2->GetVehiculos()->GetId() << endl; //Se escribe la matrícula
+//                it2++;
+//            }
+//            it++;
+//        }
+//
+//        fs.close(); //Cerramos el flujo de entrada        
+//    } else {
+//        std::cerr << "No se puede crear el fichero" << endl;
+//    }
+//}
 
 void EcoCityMoto::guardarMotos(string fileName){
     ofstream fichero;

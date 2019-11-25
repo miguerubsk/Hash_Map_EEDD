@@ -11,7 +11,9 @@
  * Created on October 24, 2019, 12:07 PM
  */
 
+#include <iostream>
 #include "Moto.h"
+#include "Cliente.h"
 
 /**
  * @brief constructor por defecto de moto
@@ -84,12 +86,13 @@ UTM& Moto::getPosicion() {
     return posicion;
 }
 
-/**
- * @brief funcion get de id
- * @return devuelve el id de la moto
- **/
-std::string Moto::getId() const {
-    return id;
+void Moto::darAviso(){
+    switch (estado){
+        case 0: usadoPor->mostrarMensaje("BLOQUEADA"); break;
+        case 1: usadoPor->mostrarMensaje("ACTIVADA"); break;
+        case 2: usadoPor->mostrarMensaje("SIN BATERIA"); break;
+        case 3: usadoPor->mostrarMensaje("ROTA"); break;
+    }
 }
 
 /**
@@ -137,7 +140,7 @@ bool Moto::operator==(const Moto &orig) { //para ordenar las motos
  * @brief funcion para activar la moto de un cliente
  * @param cli es un puntero al cliente que vamos a usar para activarle la moto en cuestion
  **/
-bool Moto::seActiva(Cliente *cli) {
+void Moto::seActiva(Cliente *cli) {
     estado = ACTIVA;
     usadoPor = cli;
 }

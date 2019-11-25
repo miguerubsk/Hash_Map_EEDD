@@ -22,7 +22,12 @@ THashCliente::THashCliente(int tam=0):v(tam, Entrada()) {
     Cliente();
 }
 
-vector<string> THashCliente::getDNIClientes(){
+
+
+THashCliente::~THashCliente() {
+}
+
+vector<string> THashCliente::iterar(){
     vector<string> aux;
     for (int i=0; i < v.size(); ++i){
         if (v[i].marca == ocupada){
@@ -30,9 +35,6 @@ vector<string> THashCliente::getDNIClientes(){
         }
     }
     return aux;
-}
-
-THashCliente::~THashCliente() {
 }
 
 bool THashCliente::inserta(const std::string& dni, Cliente &cli){

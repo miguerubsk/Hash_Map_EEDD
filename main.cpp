@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     try {
         EcoCityMoto prueba;
         Cliente *buscado;
-        Cliente ejemplo("26529258T", "aguila", "Fernando", "tu puta casa", 37.3, 38.4, &prueba);
+        Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &prueba);
         if (prueba.nuevoCliente(ejemplo)) {
             cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
             cout << "DNI: " << ejemplo.GetDNI() << endl;
@@ -97,13 +97,13 @@ int main(int argc, char** argv) {
         cout << "2 = SINBATERIA" << endl;
         cout << "3 = ROTA" << endl;
         cout << "--------------------------------" << endl;
-        cout << "Nº de clientes antes de eliminar: " << prueba.GetClientesTHash().totalClientes() << endl;
+        cout << "Nº de clientes antes de eliminar: " << prueba.getClientes().totalClientes() << endl;
         if (prueba.eliminarCliente(ejemplo)) {
             cout << "El cliente " << ejemplo.GetNOMBRE() << " ha sido eliminado." << endl;
         } else {
             cout << "El cliente " <<ejemplo.GetNOMBRE() << " no ha sido eliminado." << endl;
         }
-        cout << "Nº de clientes despues de eliminar: " << prueba.GetClientesTHash().totalClientes() << endl;
+        cout << "Nº de clientes despues de eliminar: " << prueba.getClientes().totalClientes() << endl;
 
     } catch (std::string &e) {
         cout << e << endl;
