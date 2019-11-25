@@ -16,7 +16,7 @@
 
 #include "Cliente.h"
 #include <vector>
-class Cliente;
+//class Cliente;
 enum Estado {
     vacia, disponible, ocupada
 };
@@ -28,7 +28,7 @@ public:
     std::string dni;
     Estado marca;
 
-    Entrada(): marca(vacia), clave(0), dni(""), dato() {}
+    Entrada(): marca(vacia), clave(0), dni(""), dato(Cliente()) {}
     ~Entrada() {
     };
 };
@@ -78,6 +78,7 @@ public:
     ~THashCliente();
     bool inserta(const std::string& dni, Cliente &cli);
     bool borra(long int clave);
+    bool borracliente(string& dni);
     bool busca(const std::string &dni, Cliente* &cli);    
 
     //devuelve el tamaño fisico de la tabla

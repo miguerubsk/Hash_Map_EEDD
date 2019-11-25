@@ -13,7 +13,7 @@
 
 #include "THashCliente.h"
 
-THashCliente::THashCliente(int tam=0) {
+THashCliente::THashCliente(int tam=0):v(tam, Entrada()) {
     tamf=tam;
     primorelativo=PrimoPorDebajo(tam);
     taml=0;
@@ -94,6 +94,27 @@ bool THashCliente::borra(long int clave){
     }
     return borrado;
 };
+
+bool THashCliente::borracliente(string& dni) {
+    int intento = 0;
+    unsigned long int clave;
+    do {
+        clave = hash(djb2((unsigned char*) dni.c_str()), intento);
+        if (v[clave].marca == vacia) {
+            return false;
+        } else {
+            if (v[clave].marca == ocupada && v[clave].dato.GetDNI() == dni) {
+                v[clave].marca = disponible;
+                taml--;
+                return true;
+            }
+        }
+        intento++;
+
+    } while (v[clave].marca != vacia);
+    return false;
+}
+
 
 bool THashCliente::busca(const std::string& dni, Cliente* &cli){  
     unsigned i=0,x;

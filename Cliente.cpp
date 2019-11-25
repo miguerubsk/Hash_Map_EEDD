@@ -12,6 +12,8 @@
  */
 
 #include "Cliente.h"
+#include "EcoCityMoto.h"
+#include "Moto.h"
 
 /**
  * @brief funcion para desbloquear la moto que esta asociada a cliente

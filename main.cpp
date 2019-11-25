@@ -20,6 +20,8 @@
 #include <math.h>
 #include <ctime>
 #include "Cliente.h"
+#include "EcoCityMoto.h"
+#include "Moto.h"
 
 
 using namespace std;
@@ -76,28 +78,32 @@ int main(int argc, char** argv) {
         std::vector<Moto> probar;
         probar = prueba.localizaMotosSinBateria();
         cout << "Hay " << probar.size() << " motos sin bateria." << endl;
-
-        buscado = prueba.buscarCliente("26529258T");
-
-//        buscado->desbloquearMoto(buscado->buscarMotoCercana());
-//        cout << "PORCENTAJE inicial: " << buscado->getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-//        cout << "ESTADO inicial: " << buscado->getItinerario().back().GetVehiculos()->getEstado() << endl;
-//        buscado->terminarTrayecto();
-//        cout << "PORCENTAJE final: " << buscado->getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-//        cout << "ESTADO final: " << buscado->getItinerario().back().GetVehiculos()->getEstado() << endl;
-//        cout << "-----SIGNIFICADO DEL ESTADO-----" << endl;
-//        cout << "0 = BLOQUEADA" << endl;
-//        cout << "1 = ACTIVA" << endl;
-//        cout << "2 = SINBATERIA" << endl;
-//        cout << "3 = ROTA" << endl;
-//        cout << "--------------------------------" << endl;
-        cout << "Nº de clientes antes de eliminar: " << prueba.getCliente().size() << endl;
+        
+//        buscado = prueba.buscarCliente("26529258T");
+//        if(buscado->GetDNI()=="26529258T"){
+//            cout<<"ENCONTRADO: "<<buscado->GetNOMBRE()<<endl;
+//        }else{
+//            cout<<"NO ESTA EL CLIENTE: "<<ejemplo.GetNOMBRE()<<endl;
+//        }
+            ejemplo.desbloquearMoto(ejemplo.buscarMotoCercana());
+        cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        ejemplo.terminarTrayecto();
+        cout << "PORCENTAJE final: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO final: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        cout << "-----SIGNIFICADO DEL ESTADO-----" << endl;
+        cout << "0 = BLOQUEADA" << endl;
+        cout << "1 = ACTIVA" << endl;
+        cout << "2 = SINBATERIA" << endl;
+        cout << "3 = ROTA" << endl;
+        cout << "--------------------------------" << endl;
+        cout << "Nº de clientes antes de eliminar: " << prueba.GetClientesTHash().totalClientes() << endl;
         if (prueba.eliminarCliente(ejemplo)) {
-            cout << "El cliente " << buscado->GetNOMBRE() << " ha sido eliminado." << endl;
+            cout << "El cliente " << ejemplo.GetNOMBRE() << " ha sido eliminado." << endl;
         } else {
-            cout << "El cliente " << buscado->GetNOMBRE() << " no ha sido eliminado." << endl;
+            cout << "El cliente " <<ejemplo.GetNOMBRE() << " no ha sido eliminado." << endl;
         }
-        //cout << "Nº de clientes despues de eliminar: " << prueba.GetClientesTHash().totalClientes() << endl;
+        cout << "Nº de clientes despues de eliminar: " << prueba.GetClientesTHash().totalClientes() << endl;
 
     } catch (std::string &e) {
         cout << e << endl;

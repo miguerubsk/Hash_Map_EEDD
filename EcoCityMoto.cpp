@@ -12,27 +12,28 @@
  */
 
 #include "EcoCityMoto.h"
+#include "Moto.h"
 
 /**
  * @brief contrusctor por defecto de EcoCityMoto
  **/
-EcoCityMoto::EcoCityMoto() : idUltimo(0), clientes(), motos() {
+EcoCityMoto::EcoCityMoto() : idUltimo(0), clientes(), motos(), clientesTHash(16000) {
     cargarMotos("motos.txt");
-    cargarClientes("prueba.sav");
-    //cargarClientes("clientes_v2.csv");
+    //cargarClientes("prueba.sav");
+    cargarClientes("clientes_v2.csv");
 }
 
 /**
  * @brief funcion del contructor copia de EcoCityMoto
  **/
-EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : clientes(orig.clientes), idUltimo(orig.idUltimo), motos(orig.motos) {
+EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : clientes(orig.clientes), idUltimo(orig.idUltimo), motos(orig.motos), clientesTHash(16000) {
 }
 
 /**
  * @brief destructor correspondiente de EcoCityMoto
  **/
 EcoCityMoto::~EcoCityMoto() {
-    guardaClientesItinerarios("prueba.sav");
+    //guardaClientesItinerarios("prueba.sav");
 }
 
 /**
@@ -199,7 +200,7 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                     }
                     std::pair <std::string, Cliente> par(client.GetDNI(), client);
                     clientes.insert(par);
-                    //clientesTHash.inserta(client.GetDNI(), client);
+                    clientesTHash.inserta(client.GetDNI(), client);
                     //                if (total % 100 == 0) {
                     //                    cout << "Leido cliente " << total << "\n  ";
                     //                }
@@ -208,7 +209,7 @@ void EcoCityMoto::cargarClientes(std::string filename) {
             //   getline(fe, linea);
         }
         cout << "Total de clientes en el fichero (mapa): " << clientes.size() << endl;        
-        //cout << "Total de clientes en el fichero (tabla hash): " << clientesTHash.totalClientes() << endl;
+        cout << "Total de clientes en el fichero (tabla hash): " << clientesTHash.totalClientes() << endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         cerr << "No se puede abrir el fichero" << endl;
@@ -278,13 +279,19 @@ void EcoCityMoto::cargarMotos(std::string filename) {
 }
 
 Cliente* EcoCityMoto::buscarCliente(std::string dni) {
-    Cliente c, *aux;
-    c.SetDni(dni);
-    std::map<std::string, Cliente>::iterator i = clientes.find(dni);
-    if (i != clientes.end()) {
-        return &(*i).second;
+//    Cliente c, *aux;
+//    c.SetDni(dni);
+//    std::map<std::string, Cliente>::iterator i = clientes.find(dni);
+//    if (i != clientes.end()) {
+//        return &(*i).second;
+//    }
+//    throw std::invalid_argument("No se ha encontrado al cliente");
+    Cliente *c;
+    if(clientesTHash.busca(dni, c)){
+        return c;
+    }else{
+        return 0;
     }
-    throw std::invalid_argument("No se ha encontrado al cliente");
 }
 
 /**
@@ -299,7 +306,11 @@ bool EcoCityMoto::nuevoCliente(Cliente& c) {
 //    }
 //    clientes[c.GetDNI()] = c;
 //    return true;
-    //clientesTHash.inserta(c.GetDNI(), c);
+    if(clientesTHash.inserta(c.GetDNI(), c)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 /**
@@ -314,7 +325,11 @@ bool EcoCityMoto::eliminarCliente(Cliente& c) {
 //        return true;
 //    }
 //    throw std::invalid_argument("El cliente no existe");
-    //clientesTHash.borra(c.GetDNI());
+    if(clientesTHash.borracliente(c.GetDNI2())){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 /**
@@ -430,6 +445,6 @@ Moto* EcoCityMoto::GetMotoRand() {
     return &(motos[aux]);
 }
 
-//THashCliente EcoCityMoto::GetClientesTHash() const {
-//    return clientesTHash;
-//}
+THashCliente EcoCityMoto::GetClientesTHash() const {
+    return clientesTHash;
+}

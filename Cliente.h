@@ -16,7 +16,7 @@
 
 
 #include "Itinerario.h"
-#include "EcoCityMoto.h"
+//#include "EcoCityMoto.h"
 #include <list>
 #include <iostream>
 #include <math.h>
@@ -56,6 +56,10 @@ public:
     }
 
     string GetDNI() const {
+        return dni;
+    }
+    
+        string& GetDNI2(){
         return dni;
     }
 

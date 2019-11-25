@@ -19,7 +19,6 @@
 #include "UTM.h"
 #include <ctime>
 #include <climits>
-//#include "Cliente.h"
 class Cliente;
 
 enum Status {
