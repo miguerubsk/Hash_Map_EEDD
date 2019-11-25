@@ -79,12 +79,12 @@ int main(int argc, char** argv) {
         probar = prueba.localizaMotosSinBateria();
         cout << "Hay " << probar.size() << " motos sin bateria." << endl;
         
-//        buscado = prueba.buscarCliente("26529258T");
-//        if(buscado->GetDNI()=="26529258T"){
-//            cout<<"ENCONTRADO: "<<buscado->GetNOMBRE()<<endl;
-//        }else{
-//            cout<<"NO ESTA EL CLIENTE: "<<ejemplo.GetNOMBRE()<<endl;
-//        }
+        buscado = prueba.buscarCliente("26529258T");
+        if(buscado->GetDNI()=="26529258T"){
+            cout<<"ENCONTRADO: "<<buscado->GetDNI()<<endl;
+        }else{
+            cout<<"NO ESTA EL CLIENTE: "<<buscado->GetDNI()<<endl;
+        }
             ejemplo.desbloquearMoto(ejemplo.buscarMotoCercana());
         cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
         cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
