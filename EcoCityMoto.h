@@ -36,6 +36,8 @@ public:
     std::vector<Moto> localizaMotosSinBateria();
     Moto* GetMotoRand();
     THashCliente GetClientes() const;
+    void borrarMilCientes();
+    void redispersarTabla();
 
 
 private:

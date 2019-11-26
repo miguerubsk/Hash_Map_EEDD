@@ -20,11 +20,11 @@
 /**
  * @brief contrusctor por defecto de EcoCityMoto
  **/
-EcoCityMoto::EcoCityMoto() : idUltimo(0), motos(), clientes(16000) {
+EcoCityMoto::EcoCityMoto() : idUltimo(0), motos(), clientes(16573) {
     cargarMotos("motos.txt");
+    cargarClientes("clientes_v2.csv");
     //cargarMotos("prueba.motos");
     //cargarClientes("prueba.clientes");
-    cargarClientes("clientes_v2.csv");
 }
 
 THashCliente& EcoCityMoto::getClientes(){
@@ -339,17 +339,29 @@ bool EcoCityMoto::nuevoCliente(Cliente& c) {
  * @return devuelve verdadero o falso segun si el cliente existe ya o no
  **/
 bool EcoCityMoto::eliminarCliente(Cliente& c) {
-//    std::map<std::string, Cliente>::iterator i = clientes.find(c.GetDNI());
-//    if (i != clientes.end()) {
-//        clientes.erase(i);
-//        return true;
-//    }
-//    throw std::invalid_argument("El cliente no existe");
     if(clientes.borracliente(c.GetDNI2())){
         return true;
     }else{
         return false;
     }
+}
+
+void EcoCityMoto::borrarMilCientes(){
+    vector<string> DNIs = getDNIClientes();
+    int i = 0;
+    
+    while (i<DNIs.size() && i < 1000){
+        Cliente cli(DNIs[i]);
+        eliminarCliente(cli);
+        i++;
+    }
+    cout << "Borrados 1000 clientes." << endl;
+}
+
+void EcoCityMoto::redispersarTabla(){
+    cout << "Factor de Carga de la tablaHash Antes de la redispersion: " << clientes.carga() << endl;
+    clientes.redispersar(14737);
+    cout << "Factor de Carga de la tablaHash Despues de la redispersion: " << clientes.carga() << endl;
 }
 
 /**
