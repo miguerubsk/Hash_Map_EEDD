@@ -101,11 +101,18 @@ int main(int argc, char** argv) {
         cout << "3 = ROTA" << endl;
         cout << "--------------------------------" << endl;
         cout << "------------------------------------------------------------------" << endl;
-        cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        ejemplo.mostrarMensaje(to_string(aux->getEstado()));
+        cout << "Display inicial del recorrido: " << ejemplo.getDisplay() << endl;
+        cout << "PORCENTAJE inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        cout << "------------------------------------------------------------------" << endl;
         ejemplo.terminarTrayecto();
-        cout << "PORCENTAJE final: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO final: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        cout << "----------------------TERMINARTRAYECTO----------------------------" << endl;
+        cout << "------------------------------------------------------------------" << endl;
+        ejemplo.mostrarMensaje(to_string(aux->getEstado()));        
+        cout << "Display final del recorrido: " << ejemplo.getDisplay() << endl;
+        cout << "PORCENTAJE final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
 
         cout << "Nº de clientes antes de eliminar: " << prueba.GetClientes().totalClientes() << endl;
         if (prueba.eliminarCliente(ejemplo)) {
