@@ -97,13 +97,13 @@ int main(int argc, char** argv) {
         cout << "2 = SINBATERIA" << endl;
         cout << "3 = ROTA" << endl;
         cout << "--------------------------------" << endl;
-        cout << "Nº de clientes antes de eliminar: " << prueba.getClientes().totalClientes() << endl;
+        cout << "Nº de clientes antes de eliminar: " << prueba.GetClientes().totalClientes() << endl;
         if (prueba.eliminarCliente(ejemplo)) {
             cout << "El cliente " << ejemplo.GetNOMBRE() << " ha sido eliminado." << endl;
         } else {
             cout << "El cliente " <<ejemplo.GetNOMBRE() << " no ha sido eliminado." << endl;
         }
-        cout << "Nº de clientes despues de eliminar: " << prueba.getClientes().totalClientes() << endl;
+        cout << "Nº de clientes despues de eliminar: " << prueba.GetClientes().totalClientes() << endl;
 
     } catch (std::string &e) {
         cout << e << endl;

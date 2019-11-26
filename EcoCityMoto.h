@@ -35,7 +35,7 @@ public:
     std::vector<Moto>* GetMotos();
     std::vector<Moto> localizaMotosSinBateria();
     Moto* GetMotoRand();
-//    THashCliente GetClientes() const;
+    THashCliente GetClientes() const;
 
 
 private:

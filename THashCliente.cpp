@@ -124,13 +124,17 @@ bool THashCliente::busca(const std::string& dni, Cliente* &cli){
     unsigned long clave=djb2((unsigned char*)dni.c_str());
     while (!esta) {
         x=hash2(clave, i);
-        if (v[x].marca==ocupada){                    
+        if (v[x].marca==ocupada){
+            cli= &(v[x].dato);
             return &(v[x].dato);       
         }else{
-            if (v[x].marca==vacia)
+            if (v[x].marca==vacia){
+                cli= &(v[x].dato);
                 esta=true;
-            else
-                ++i;   //no estaba en esa posicion y aumenta un aumento
+                
+            }else{
+                i++;
+            }//no estaba en esa posicion y aumenta un aumento
         }          
 
     }

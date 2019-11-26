@@ -463,9 +463,9 @@ Moto* EcoCityMoto::GetMotoRand() {
     return &(motos[aux]);
 }
 
-//THashCliente EcoCityMoto::GetClientes() const {
-//    return clientes;
-//}
+THashCliente EcoCityMoto::GetClientes() const {
+    return clientes;
+}
 
 //void EcoCityMoto::guardaClientesItinerariosHash(std::string fileName) {
 //    ofstream fs; //Flujo de salida
