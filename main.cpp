@@ -65,11 +65,6 @@ int main(int argc, char** argv) {
         Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &prueba);
         if (prueba.nuevoCliente(ejemplo)) {
             cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
-            cout << "DNI: " << ejemplo.GetDNI() << endl;
-            cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
-            cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
-            cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
-            cout << "---------------------------------" << endl;
         } else {
             cout << "-----NO SE HA AÑADIO EL CLIENTE-----" << endl;
         }
@@ -81,22 +76,37 @@ int main(int argc, char** argv) {
         
         buscado = prueba.buscarCliente("26529258T");
         if(buscado->GetDNI()=="26529258T"){
-            cout<<"ENCONTRADO: "<<buscado->GetDNI()<<endl;
+            cout << "----------------------------ENCONTRADO----------------------------" << endl;            
+            cout << "DNI: " << buscado->GetDNI() << endl;
+            cout << "Nombre: " << buscado->GetNOMBRE() << endl;
+            cout << "Latitud: " << buscado->GetUTM().GetLatitud() << endl;
+            cout << "Longitud: " << buscado->GetUTM().GetLongitud() << endl;
+            cout << "------------------------------------------------------------------" << endl;
         }else{
-            cout<<"NO ESTA EL CLIENTE: "<<buscado->GetDNI()<<endl;
+            cout << "NO ESTA EL CLIENTE: " << endl;
         }
-            ejemplo.desbloquearMoto(ejemplo.buscarMotoCercana());
-        cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
-        ejemplo.terminarTrayecto();
-        cout << "PORCENTAJE final: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO final: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        Moto *aux;
+        aux=ejemplo.buscarMotoCercana();
+        ejemplo.desbloquearMoto(aux);
+        cout << "-------------------------------MOTO-------------------------------" << endl;
+        cout << "Matricula: " << aux->GetId() << endl;
+        cout << "Estado: " << aux->getEstado() << endl;
+        cout << "Latitud: " << aux->getPosicion().GetLatitud() << endl;
+        cout << "Longitud: " << aux->getPosicion().GetLongitud() << endl;
+        cout << "Usado por: " << aux->getUsadoPor()->GetNOMBRE() << endl;
         cout << "-----SIGNIFICADO DEL ESTADO-----" << endl;
         cout << "0 = BLOQUEADA" << endl;
         cout << "1 = ACTIVA" << endl;
         cout << "2 = SINBATERIA" << endl;
         cout << "3 = ROTA" << endl;
         cout << "--------------------------------" << endl;
+        cout << "------------------------------------------------------------------" << endl;
+        cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+        ejemplo.terminarTrayecto();
+        cout << "PORCENTAJE final: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+        cout << "ESTADO final: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
+
         cout << "Nº de clientes antes de eliminar: " << prueba.GetClientes().totalClientes() << endl;
         if (prueba.eliminarCliente(ejemplo)) {
             cout << "El cliente " << ejemplo.GetNOMBRE() << " ha sido eliminado." << endl;
@@ -104,7 +114,11 @@ int main(int argc, char** argv) {
             cout << "El cliente " <<ejemplo.GetNOMBRE() << " no ha sido eliminado." << endl;
         }
         cout << "Nº de clientes despues de eliminar: " << prueba.GetClientes().totalClientes() << endl;
-
+        
+        prueba.nuevoCliente(ejemplo);
+        
+        cout << "Nº de clientes despues de añadirlo nuevamente: " << prueba.GetClientes().totalClientes() << endl;
+        
     } catch (std::string &e) {
         cout << e << endl;
     } catch (std::invalid_argument &e) {
