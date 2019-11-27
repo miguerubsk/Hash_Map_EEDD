@@ -59,66 +59,22 @@ void MaxMinLatLon(vector<Cliente> v, double &maxLon, double &maxLat, double &min
 }
 
 int main(int argc, char** argv) {
-    try {
-//        EcoCityMoto prueba;
-//        Cliente *buscado;
-//        Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &prueba);
-//        if (prueba.nuevoCliente(ejemplo)) {
-//            cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
-//            cout << "DNI: " << ejemplo.GetDNI() << endl;
-//            cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
-//            cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
-//            cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
-//            cout << "---------------------------------" << endl;
-//        } else {
-//            cout << "-----NO SE HA AÑADIO EL CLIENTE-----" << endl;
-//        }
-//        //cout << "Nº de clientes: " << prueba.GetClientesTHash().totalClientes() << endl;
-//
-//        std::vector<Moto> probar;
-//        probar = prueba.localizaMotosSinBateria();
-//        cout << "Hay " << probar.size() << " motos sin bateria." << endl;
-//        
-//        buscado = prueba.buscarCliente("26529258T");
-//        if(buscado->GetDNI()=="26529258T"){
-//            cout<<"ENCONTRADO: "<<buscado->GetDNI()<<endl;
-//        }else{
-//            cout<<"NO ESTA EL CLIENTE: "<<buscado->GetDNI()<<endl;
-//        }
-//            ejemplo.desbloquearMoto(ejemplo.buscarMotoCercana());
-//        cout << "PORCENTAJE inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-//        cout << "ESTADO inicial: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
-//        ejemplo.terminarTrayecto();
-//        cout << "PORCENTAJE final: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-//        cout << "ESTADO final: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
-//        cout << "-----SIGNIFICADO DEL ESTADO-----" << endl;
-//        cout << "0 = BLOQUEADA" << endl;
-//        cout << "1 = ACTIVA" << endl;
-//        cout << "2 = SINBATERIA" << endl;
-//        cout << "3 = ROTA" << endl;
-//        cout << "--------------------------------" << endl;
-//        cout << "Nº de clientes antes de eliminar: " << prueba.GetClientes().totalClientes() << endl;
-//        if (prueba.eliminarCliente(ejemplo)) {
-//            cout << "El cliente " << ejemplo.GetNOMBRE() << " ha sido eliminado." << endl;
-//        } else {
-//            cout << "El cliente " <<ejemplo.GetNOMBRE() << " no ha sido eliminado." << endl;
-//        }
-//        cout << "Nº de clientes despues de eliminar: " << prueba.GetClientes().totalClientes() << endl;
-        
+    try {        
         //Creamos estructura y se cargan clientes y motos dentro
         EcoCityMoto pruebaEco;  
-    
-          //Buscamos un cliente, una moto, la utiliza y la deja
+        cout << "Factor de carga de la tablaHash: " << pruebaEco.GetClientes().carga() << endl;
+        
+        //Buscamos un cliente, una moto, la utiliza y la deja
         Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &pruebaEco);
         if (pruebaEco.nuevoCliente(ejemplo)) {
-            cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
+            cout << "-----SE HA AÑADIDO EL CLIENTE-----" << endl;
             cout << "DNI: " << ejemplo.GetDNI() << endl;
             cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
             cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
             cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
             cout << "---------------------------------" << endl;
         } else {
-            cout << "-----NO SE HA AÑADIO EL CLIENTE-----" << endl;
+            cout << "-----NO SE HA AÑADIDO EL CLIENTE-----" << endl;
         }
             
             Cliente *clienteRef=pruebaEco.buscarCliente(ejemplo.GetDNI());
@@ -155,6 +111,8 @@ int main(int argc, char** argv) {
         cout << e << endl;
     } catch (std::invalid_argument &e) {
         std::cerr << e.what() << std::endl;
-    }
+    }catch (ErrorFechaIncorrecta &e){
+            std::cerr << "Fecha Incorrecta: " << std::endl;
+     }
     return 0;
 }

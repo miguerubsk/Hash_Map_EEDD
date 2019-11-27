@@ -16,7 +16,8 @@
 
 #include "Cliente.h"
 #include <vector>
-//class Cliente;
+
+
 enum Estado {
     vacia, disponible, ocupada
 };
