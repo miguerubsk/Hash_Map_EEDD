@@ -16,7 +16,7 @@
 
 #include "Cliente.h"
 #include <vector>
-//class Cliente;
+
 enum Estado {
     vacia, disponible, ocupada
 };
@@ -28,7 +28,9 @@ public:
     std::string dni;
     Estado marca;
 
-    Entrada(): marca(vacia), clave(0), dni(""), dato(Cliente()) {}
+    Entrada() : marca(vacia), clave(0), dni(""), dato(Cliente()) {
+    }
+
     ~Entrada() {
     };
 };
@@ -44,35 +46,33 @@ private:
 
     inline unsigned int hash(unsigned long int clave, int i) {
         unsigned long posicionfinal;
-        posicionfinal= (clave+(i*i)) % tamf;
+        posicionfinal = (clave + (i * i)) % tamf;
         return posicionfinal;
     };
 
     inline unsigned int hash2(unsigned long int clave, int i) {
-        unsigned long posicion,posicionfinal;
+        unsigned long posicion, posicionfinal;
         posicion = clave % tamf;
-        posicionfinal = (posicion + (i* (primorelativo-(clave % (primorelativo))))) % tamf;
+        posicionfinal = (posicion + (i * (primorelativo - (clave % (primorelativo))))) % tamf;
         return posicionfinal;
     }
-    
+
     unsigned hash3(unsigned clave, int i) {
-        unsigned long posicion,posicionfinal;
+        unsigned long posicion, posicionfinal;
 
         posicion = clave % tamf;
-        posicionfinal = (posicion + (i* (1+(clave % (primorelativo))))) % tamf;
+        posicionfinal = (posicion + (i * (1 + (clave % (primorelativo))))) % tamf;
         return posicionfinal;
     }
-    
-    
-    
-unsigned long djb2(const unsigned char *str){
-   unsigned long hash = 5381;
-   int c;
-   while (c = *str++)
-       hash = ((hash<<5)+hash)+c;
-   return hash;
-}
-    
+
+    unsigned long djb2(const unsigned char *str) {
+        unsigned long hash = 5381;
+        int c;
+        while (c = *str++)
+            hash = ((hash << 5) + hash) + c;
+        return hash;
+    }
+
 public:
     THashCliente(int tam);
     ~THashCliente();
@@ -83,12 +83,27 @@ public:
     vector<string> iterar();
 
     //devuelve el tamaño fisico de la tabla
-    unsigned int tamanio(){return tamf;}
-    unsigned int totalClientes(){return taml;}
-    int maxcolisiones(){return maxcoli;}
-    float colisionesMedias(){return (float)totalColisiones/taml;}
-    float carga(){return (float)taml/tamf;}
-    void redispersar (unsigned long tam);
+
+    unsigned int tamanio() {
+        return tamf;
+    }
+
+    unsigned int totalClientes() {
+        return taml;
+    }
+
+    int maxcolisiones() {
+        return maxcoli;
+    }
+
+    float colisionesMedias() {
+        return (float) totalColisiones / taml;
+    }
+
+    float carga() {
+        return (float) taml / tamf;
+    }
+    void redispersar(unsigned long tam);
 };
 
 #endif /* THASHCLIENTE_H */

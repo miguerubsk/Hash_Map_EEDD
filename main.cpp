@@ -59,16 +59,21 @@ void MaxMinLatLon(vector<Cliente> v, double &maxLon, double &maxLat, double &min
 }
 
 int main(int argc, char** argv) {
-    try {
+    try {        
         //Creamos estructura y se cargan clientes y motos dentro
-        EcoCityMoto pruebaEco;
-
+        EcoCityMoto pruebaEco;  
+        cout << "Factor de carga de la tablaHash: " << pruebaEco.GetClientes().carga() << endl;
         //Buscamos un cliente, una moto, la utiliza y la deja
         Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &pruebaEco);
         if (pruebaEco.nuevoCliente(ejemplo)) {
-            cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
+            cout << "-----SE HA AÑADIDO EL CLIENTE-----" << endl;
+            cout << "DNI: " << ejemplo.GetDNI() << endl;
+            cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
+            cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
+            cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
+            cout << "---------------------------------" << endl;
         } else {
-            cout << "-----NO SE HA AÑADIO EL CLIENTE-----" << endl;
+            cout << "-----NO SE HA AÑADIDO EL CLIENTE-----" << endl;
         }
 
         Cliente *clienteRef = pruebaEco.buscarCliente(ejemplo.GetDNI());
@@ -125,6 +130,9 @@ int main(int argc, char** argv) {
         cout << "PORCENTAJE final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
         cout << "ESTADO final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
 
+            clienteRef->desbloquearMoto(m);
+            cout << "Comienza Ruta n: " << pruebaEco.getIdUltimo() << std::endl;
+
         cout << "Desbloqueamos la Moto: " << m->GetId() << std::endl;
         clienteRef->terminarTrayecto();
         cout << "Fin de la Ruta: " << clienteRef->getItinerario().back().GetFecha().cadena() <<
@@ -133,12 +141,23 @@ int main(int argc, char** argv) {
                 ", Pos Fin: " << clienteRef->getItinerario().back().GetFin().GetLatitud() << "<-->" <<
                 clienteRef->getItinerario().back().GetFin().GetLongitud() << std::endl;
 
-        vector<Moto> v = pruebaEco.localizaMotosSinBateria();
-
+            vector<Moto> v=pruebaEco.localizaMotosSinBateria(); 
+        
+            if (pruebaEco.eliminarCliente(ejemplo))
+                cout << "Borrando cliente: " << ejemplo.GetDNI() << endl;
+            if (!pruebaEco.nuevoCliente(ejemplo))
+                throw invalid_argument("Cliente NO insertado: el cliente ya existe o no entro en la Tabla");
+            cout << "Cliente con id: " << ejemplo.GetDNI() << " insertado correctamente !! " << std::endl;
+    
+            pruebaEco.borrarMilCientes();
+            pruebaEco.redispersarTabla();
     } catch (std::string &e) {
         cout << e << endl;
     } catch (std::invalid_argument &e) {
         std::cerr << e.what() << std::endl;
-    }
+
+    }catch (ErrorFechaIncorrecta &e){
+            std::cerr << "Fecha Incorrecta: " << std::endl;
+     }
     return 0;
 }

@@ -138,7 +138,6 @@ bool THashCliente::busca(const std::string& dni, Cliente* &cli){
         }          
 
     }
-    //std::vector<Cliente*> vi;
     return 0;   //no encontrado
 };
 
@@ -159,7 +158,6 @@ int THashCliente::PrimoPorDebajo(unsigned x) {
 }
 
 void THashCliente::redispersar (unsigned long tam){
-    //unsigned int tam= tabla.size()*2;
     vector<Entrada> aux(tam,Entrada());
     tamf=tam;
     totalColisiones=0;
@@ -181,7 +179,6 @@ void THashCliente::redispersar (unsigned long tam){
                     
                     ++intento;   //No he dado aun con una posicion libre
             }
-            //std::cout << "Intentos " << i << std::endl; 
             totalColisiones+=intento;
             if (!encontrado)
                 cout << " Cliente no insertado: " << v[i].dni << endl  ; 
