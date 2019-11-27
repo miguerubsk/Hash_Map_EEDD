@@ -19,6 +19,7 @@ THashCliente::THashCliente(int tam=0):v(tam, Entrada()) {
     taml=0;
     maxcoli=0;
     totalColisiones=0;
+    colisionesultimoinsertado=0;
     Cliente();
 }
 
@@ -44,7 +45,7 @@ bool THashCliente::inserta(const std::string& dni, Cliente &cli){
     unsigned long clave=djb2((unsigned char*)dni.c_str());
 
     while (!encontrado) {
-        y=hash(clave, i);           
+        y=hash3(clave, i);           
         if (v[y].marca==vacia ) {
             if (p==-1)
                 final=y;
@@ -56,6 +57,8 @@ bool THashCliente::inserta(const std::string& dni, Cliente &cli){
             v[final].clave=clave;
             v[final].dato=cli;
             encontrado = true;
+            colisionesultimoinsertado=i;
+
         }else{
             if (v[y].marca==disponible && aux==false){
                 p=y;
@@ -185,4 +188,8 @@ void THashCliente::redispersar (unsigned long tam){
         } 
     }
     v=aux;       
+}
+
+unsigned int THashCliente::GetColisionesultimoinsertado() const {
+    return colisionesultimoinsertado;
 }

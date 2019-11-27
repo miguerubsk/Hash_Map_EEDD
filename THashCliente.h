@@ -38,7 +38,7 @@ public:
 class THashCliente {
 private:
     std::vector<Entrada> v;
-    unsigned int tamf, taml, maxcoli, totalColisiones, primorelativo;
+    unsigned int tamf, taml, maxcoli, totalColisiones, primorelativo, colisionesultimoinsertado;
 
     int PrimoPorDebajo(unsigned x);
 
@@ -104,6 +104,7 @@ public:
         return (float) taml / tamf;
     }
     void redispersar(unsigned long tam);
+    unsigned int GetColisionesultimoinsertado() const;
 };
 
 #endif /* THASHCLIENTE_H */

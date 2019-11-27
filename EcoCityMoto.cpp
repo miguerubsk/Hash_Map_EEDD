@@ -269,7 +269,7 @@ void EcoCityMoto::cargarMotos(std::string filename) {
                 dlon = stod(longitud);
                 int aux = stoi(estado);
                 if(bateria==""){
-                    bateriaAux=100;
+                    bateriaAux=rand()%100;
                 }else{
                     bateriaAux = stof(bateria);
                 }
