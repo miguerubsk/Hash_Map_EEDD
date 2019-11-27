@@ -112,11 +112,6 @@ int main(int argc, char** argv) {
         Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &pruebaEco);
         if (pruebaEco.nuevoCliente(ejemplo)) {
             cout << "-----SE HA AÑADIO EL CLIENTE-----" << endl;
-            cout << "DNI: " << ejemplo.GetDNI() << endl;
-            cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
-            cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
-            cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
-            cout << "---------------------------------" << endl;
         } else {
             cout << "-----NO SE HA AÑADIO EL CLIENTE-----" << endl;
         }
@@ -142,19 +137,4 @@ int main(int argc, char** argv) {
 
             vector<Moto> v=pruebaEco.localizaMotosSinBateria(); 
         
-            if (pruebaEco.eliminarCliente(ejemplo))
-                cout << "Borrando cliente: " << ejemplo.GetDNI() << endl;
-            if (!pruebaEco.nuevoCliente(ejemplo))
-                throw invalid_argument("Cliente NO insertado: el cliente ya existe o no entro en la Tabla");
-            cout << "Cliente con id: " << ejemplo.GetDNI() << " insertado correctamente !! " << std::endl;
-    
-            pruebaEco.borrarMilCientes();
-            pruebaEco.redispersarTabla();
-
     } catch (std::string &e) {
-        cout << e << endl;
-    } catch (std::invalid_argument &e) {
-        std::cerr << e.what() << std::endl;
-    }
-    return 0;
-}
