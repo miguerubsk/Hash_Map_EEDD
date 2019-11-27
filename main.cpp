@@ -63,8 +63,11 @@ int main(int argc, char** argv) {
         //Creamos estructura y se cargan clientes y motos dentro
         EcoCityMoto pruebaEco;  
         cout << "Factor de carga de la tablaHash: " << pruebaEco.GetClientes().carga() << endl;
+        cout << "Promedio de colisiones de la tabla hash: " << pruebaEco.GetClientes().colisionesMedias() << endl;
+        cout << "Máximo de colisiones: " << pruebaEco.GetClientes().maxcolisiones() << endl;
+        
         //Buscamos un cliente, una moto, la utiliza y la deja
-        Cliente ejemplo("26529258T", "aguila", "Fernando", "Jaen", 37.3, 38.4, &pruebaEco);
+        Cliente ejemplo("77556358J", "miguel", "Miguerubsk", "Jaen", 37.3, 38.4, &pruebaEco);
         if (pruebaEco.nuevoCliente(ejemplo)) {
             cout << "-----SE HA AÑADIDO EL CLIENTE-----" << endl;
             cout << "DNI: " << ejemplo.GetDNI() << endl;
