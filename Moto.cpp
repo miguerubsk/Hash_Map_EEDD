@@ -157,8 +157,7 @@ std::string Moto::GetId() const {
     return id;
 }
 
-Moto::Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria) :
-id(_id), posicion(_latitud, _longitud) {
+Moto::Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria) :id(_id), posicion(_latitud, _longitud) {
     if (_porcentajeBateria <= 100 && _porcentajeBateria >= 0){
         porcentajeBateria = _porcentajeBateria;
     }else{

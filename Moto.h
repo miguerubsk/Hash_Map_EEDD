@@ -28,7 +28,7 @@ class Moto {
 public:
     Moto();
     Moto(const Moto& orig);
-    Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria = 100);
+    Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria);
     UTM &getPosicion();
     void darAviso();
     Status &getStatus();
