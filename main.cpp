@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         cin >> opcion;
         if (opcion == 1) {
             cout << "Entrenando...." << endl;
-            int tams[] = {16493, 16573, 16063, 16747};
+            int tams[] = {15737, 16573, 16063, 16747};
             for (int i = 0; i < 4; ++i) {
                 for (int j = 1; j <= 3; ++j) {
                     EcoCityMoto entrenaEco(tams[i], true, j);
@@ -119,8 +119,8 @@ int main(int argc, char** argv) {
             probar = pruebaEco.localizaMotosSinBateria();
             cout << "Hay " << probar.size() << " motos sin bateria." << endl;
 
-            clienteRef = pruebaEco.buscarCliente("26529258T");
-            if (clienteRef->GetDNI() == "26529258T") {
+            clienteRef = pruebaEco.buscarCliente("77556358J");
+            if (clienteRef->GetDNI() == "77556358J") {
                 cout << "----------------------------ENCONTRADO----------------------------" << endl;
                 cout << "DNI: " << clienteRef->GetDNI() << endl;
                 cout << "Nombre: " << clienteRef->GetNOMBRE() << endl;
@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
             cout << "Usado por: " << aux->getUsadoPor()->GetNOMBRE() << endl;
             cout << "------------------------------------------------------------------" << endl;
             ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-            cout << "Display inicial de la moto: " << ejemplo.getDisplay() << endl;
+            //cout << "Display inicial de la moto: " << ejemplo.getDisplay() << endl;
             cout << "PORCENTAJE BATERIA inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
             cout << "ESTADO inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
             cout << "------------------------------------------------------------------" << endl;
@@ -149,12 +149,13 @@ int main(int argc, char** argv) {
             cout << "----------------------TERMINARTRAYECTO----------------------------" << endl;
             cout << "------------------------------------------------------------------" << endl;
             ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-            cout << "Display final de la moto: " << ejemplo.getDisplay() << endl;
+            //cout << "Display final de la moto: " << ejemplo.getDisplay() << endl;
             cout << "PORCENTAJE BATERIA final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
             cout << "ESTADO final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
 
             vector<Moto> v = pruebaEco.localizaMotosSinBateria();
-
+            
+            cout << "------------------------------------------------------------------" << endl;
             if (pruebaEco.eliminarCliente(ejemplo))
                 cout << "Borrando cliente: " << ejemplo.GetDNI() << endl;
             if (!pruebaEco.nuevoCliente(ejemplo))

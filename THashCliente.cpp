@@ -15,6 +15,8 @@
 
 /**
  * @brief constructor de la tabla hash
+ * @param A tamaño de la tabla hash por defecto=0
+ * @param B tipo del hash que vamos a utilizar cuando entrenamos la tabla hash
  **/
 THashCliente::THashCliente(int tam = 0, int _tipoHash) : v(tam, Entrada()) {
     tamf = tam;
