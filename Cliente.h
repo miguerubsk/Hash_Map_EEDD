@@ -15,17 +15,15 @@
 #define CLIENTE_H
 
 
-#include "Itinerario.h"
-//#include "EcoCityMoto.h"
-#include <list>
-#include <iostream>
-#include <math.h>
+#include <string>
+#include "UTM.h"
 #include <random>
 #include <ctime>
-#include <stdlib.h>
-#include <time.h>
+#include <iostream>
+#include <list>
+#include "Itinerario.h"
 
-class EcoCityMoto;
+class EcoCityMoto;      //forward
 
 using namespace std;
 
@@ -35,6 +33,7 @@ private:
     string pass;
     string nombre;
     string direccion;
+    string display;
     list<Itinerario> rutas;
     EcoCityMoto *acceso;
     UTM posicion;
@@ -48,7 +47,7 @@ public:
     Cliente() : dni("0"), pass("0"), nombre("0"), direccion("0"), posicion(0.0, 0.0), rutas() {
     }
 
-    Cliente(string _dni, string _pass, string _nombre, string _direccion, double _latitud, double _longitud, EcoCityMoto *_acceso = 0) :
+    Cliente(string _dni, string _pass="", string _nombre="", string _direccion="", double _latitud=0, double _longitud=0, EcoCityMoto *_acceso = 0) :
     dni(_dni), pass(_pass), nombre(_nombre), direccion(_direccion), posicion(_latitud, _longitud), acceso(_acceso) {
     }
 
@@ -59,10 +58,12 @@ public:
         return dni;
     }
     
-        string& GetDNI2(){
-        return dni;
+    string& GetDNI2(){
+    return dni;
     }
 
+    string getDisplay();
+    
     string GetNOMBRE() const {
         return nombre;
     }
@@ -134,6 +135,7 @@ public:
     void terminarTrayecto();
     Moto * buscarMotoCercana();
     list<Itinerario>& getItinerario();
+    void mostrarMensaje(string aviso);
 
     friend ostream& operator<<(ostream & os, const Cliente & obj);
     std::string GuardaCliente();

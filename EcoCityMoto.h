@@ -14,16 +14,10 @@
 #ifndef ECOCITYMOTO_H
 #define ECOCITYMOTO_H
 
-#include <vector>
-#include <map>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <iostream>
-#include "Cliente.h"
 #include "THashCliente.h"
-
-class Moto;
+#include <vector>
+#include "Moto.h"
+#include "Cliente.h"
 
 class EcoCityMoto {
 public:
@@ -33,7 +27,7 @@ public:
     Moto* LocalizaMotoCercana(UTM &ubicacion);
     void desbloqueaMoto(Moto *moto, Cliente *cli);
     unsigned int getIdUltimo() const;
-    std::map<std::string, Cliente>& getCliente();
+    THashCliente& getClientes();
     void setIdUltimo(unsigned int idUltimo);
     Cliente* buscarCliente(std::string dni);
     bool nuevoCliente(Cliente &c);
@@ -41,20 +35,24 @@ public:
     std::vector<Moto>* GetMotos();
     std::vector<Moto> localizaMotosSinBateria();
     Moto* GetMotoRand();
-    THashCliente GetClientesTHash() const;
+    THashCliente GetClientes() const;
+    void borrarMilCientes();
+    void redispersarTabla();
 
 
 private:
 
     unsigned int idUltimo;
     std::vector<Moto> motos;
-    std::map<std::string, Cliente> clientes;
-    THashCliente clientesTHash;
+    THashCliente clientes;
+    vector<string> getDNIClientes();
+//    THashCliente clientesTHash;
 
     void cargarClientes(std::string filename);
     void cargarMotos(std::string filename);
     void guardaClientesItinerarios(std::string fileName);
-    void guardaClientesItinerariosHash(std::string fileName);
+//    void guardaClientesItinerariosHash(std::string fileName);
+    void guardarMotos(string fileName);
 };
 
 #endif /* ECOCITYMOTO_H */

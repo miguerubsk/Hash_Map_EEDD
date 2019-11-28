@@ -11,7 +11,9 @@
  * Created on October 24, 2019, 12:07 PM
  */
 
+#include <iostream>
 #include "Moto.h"
+#include "Cliente.h"
 
 /**
  * @brief constructor por defecto de moto
@@ -84,12 +86,13 @@ UTM& Moto::getPosicion() {
     return posicion;
 }
 
-/**
- * @brief funcion get de id
- * @return devuelve el id de la moto
- **/
-std::string Moto::getId() const {
-    return id;
+void Moto::darAviso(){
+    switch (estado){
+        case 0: usadoPor->mostrarMensaje("BLOQUEADA"); break;
+        case 1: usadoPor->mostrarMensaje("ACTIVADA"); break;
+        case 2: usadoPor->mostrarMensaje("SIN BATERIA"); break;
+        case 3: usadoPor->mostrarMensaje("ROTA"); break;
+    }
 }
 
 /**
@@ -137,7 +140,7 @@ bool Moto::operator==(const Moto &orig) { //para ordenar las motos
  * @brief funcion para activar la moto de un cliente
  * @param cli es un puntero al cliente que vamos a usar para activarle la moto en cuestion
  **/
-bool Moto::seActiva(Cliente *cli) {
+void Moto::seActiva(Cliente *cli) {
     estado = ACTIVA;
     usadoPor = cli;
 }
@@ -154,16 +157,14 @@ std::string Moto::GetId() const {
     return id;
 }
 
-Moto::Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria) :
-id(_id), posicion(_latitud, _longitud) {
-    if ((_porcentajeBateria > 100 || _porcentajeBateria < 0) && _porcentajeBateria != UINT_MAX) throw std::string("Moto::Moto: la bateria tiene que estar entre 0 y 100.");
-
-    if (_porcentajeBateria == UINT_MAX) {
-        srand(time(NULL) + stoi(_id));
-        porcentajeBateria = 0 + rand() % (100 - 0);
-    } else {
+Moto::Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria) :id(_id), posicion(_latitud, _longitud) {
+    if (_porcentajeBateria <= 100 && _porcentajeBateria >= 0){
         porcentajeBateria = _porcentajeBateria;
+    }else{
+        porcentajeBateria = 100;
     }
+
+    
     switch (_estado) {
         case 0: estado = BLOQUEADA;
             break;

@@ -14,12 +14,11 @@
 #ifndef MOTO_H
 #define MOTO_H
 
+#include "UTM.h"
 #include <string>
 #include <stdexcept>
-#include "UTM.h"
-#include <ctime>
-#include <climits>
-class Cliente;
+
+class Cliente;   //forward
 
 enum Status {
     BLOQUEADA, ACTIVA, SINBATERIA, ROTA
@@ -29,15 +28,15 @@ class Moto {
 public:
     Moto();
     Moto(const Moto& orig);
-    Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria = UINT_MAX);
+    Moto(std::string _id, double _latitud, double _longitud, int _estado, float _porcentajeBateria);
     UTM &getPosicion();
-    std::string getId() const;
+    void darAviso();
     Status &getStatus();
     virtual ~Moto();
     Moto& operator=(const Moto &orig);
     bool operator<(const Moto &orig);
     bool operator==(const Moto &orig);
-    bool seActiva(Cliente *cli);
+    void seActiva(Cliente *cli);
     void seDesactiva();
     std::string GetId() const;
     void setEstado(Status estado);

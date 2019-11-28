@@ -17,7 +17,7 @@
 
 /**
  * @brief funcion para desbloquear la moto que esta asociada a cliente
- * @param A es la moto en cuestion que queremos desbloquear
+ * @param m es la moto en cuestion que queremos desbloquear
  **/
 void Cliente::desbloquearMoto(Moto *m) {
     if (m == 0) throw std::string("Cliente::desbloquearMoto: la moto es 0.");
@@ -31,26 +31,24 @@ void Cliente::desbloquearMoto(Moto *m) {
 
 /**
  * @brief funcion añadir un itinerario a un cliente
- * @param A es el id de itinerarios a crear
- * @param B es el IdUltimo del itinerario del cliente
- * @param C es la fecha del itinerario
- * @param D son los minutos del itinerario
- * @param E es el puntero a la moto de dicho itinerario
- * @param F es la posicion inicial
- * @param G es la posicion final
+ * @param id es el id del itinerario a crear
+ * @param fecha es la fecha del itinerario
+ * @param minutos son los minutos del itinerario
+ * @param moto es el puntero a la moto de dicho itinerario
+ * @param inicio es la posicion inicial
+ * @param fin es la posicion final
  **/
 void Cliente::addItinerario(int id, Fecha fecha, int minutos, Moto *moto, UTM inicio, UTM fin) {
-    //TODO int _id, UTM &_inicio, UTM &_fin, Fecha &_fecha, int _minutos, Moto *_moto
     Itinerario it(id, inicio, fin, fecha, minutos, moto);
     rutas.push_back(it);
 }
 
 /**
  * @brief funcion para crear los itinerario del cliente
- * @param A es el numero de itinerarios a crear
- * @param B es el IdUltimo del itinerario del cliente
- * @param C es la posicion minima posible
- * @param D es la posicion maxima posible
+ * @param num es el numero de itinerarios a crear
+ * @param IdUltimo es el IdUltimo del itinerario del cliente
+ * @param min es la posicion minima posible
+ * @param max es la posicion maxima posible
  **/
 void Cliente::crearItinerarios(int num, int IdUltimo, const UTM& min, const UTM& max) {
     double lat;
@@ -81,8 +79,6 @@ void Cliente::crearItinerarios(int num, int IdUltimo, const UTM& min, const UTM&
 
         rutas.push_back(itinerarioAux);
     }
-    //int a = acceso->GetMotos()->size();
-    //cout<<"HAY: "<<a<<" MOTOS EN EL VECTOR"<<endl;
 }
 
 /**
@@ -96,9 +92,9 @@ void Cliente::terminarTrayecto() {
     rutas.back().SetMinutos(aux);
 
 
-    //rutas.back().SetMinutos((fechafin.verHora()*60 + fechafin.verMin()) - (rutas.back().GetFecha().verHora()*60 + rutas.back().GetFecha().verMin()));
     rutas.back().SetFin(posicion);
     rutas.back().GetVehiculos()->setPosicion(posicion);
+    rutas.back().GetVehiculos()->darAviso();
     rutas.back().GetVehiculos()->seDesactiva();
     rutas.back().GetVehiculos()->setPorcentajeBateria((rutas.back().GetVehiculos()->getPorcentajeBateria()) - (float) aux);
 }
@@ -123,8 +119,8 @@ list<Itinerario>& Cliente::getItinerario() {
 
 /**
  * @brief funcion para el operador << de la clase Cliente
- * @param A ostream &os
- * @param B const Cliente & obj  
+ * @param os ostream &os
+ * @param obj const Cliente & obj  
  * @return devuelve el contenido de las variables de cliente
  **/
 ostream& operator<<(ostream & os, const Cliente & obj) {
@@ -142,6 +138,10 @@ std::string Cliente::GuardaCliente() {
     return lineadatos;
 }
 
+string Cliente::getDisplay(){
+    return display;
+}
+
 /**
  * @brief funcion get para la posicion del clieente
  * @return devuelve el valor de posicion
@@ -156,4 +156,8 @@ UTM Cliente::getPosicion() const {
  **/
 string Cliente::getPass() const {
     return pass;
+}
+
+void Cliente::mostrarMensaje(string aviso){
+    display=aviso;
 }
