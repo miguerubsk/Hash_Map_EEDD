@@ -62,10 +62,12 @@ void menu() {
     cout << "========================MENÚ========================" << endl;
     cout << "1 - Entrenamiento" << endl;
     cout << "2 - Ejecución" << endl;
+    cout << "====================================================" << endl;
+    cout << "Elegir opcion: ";
 }
 
 int main(int argc, char** argv) {
-    int opcion;
+    int opcion=0;
     try {
         menu();
         cin >> opcion;
@@ -139,17 +141,17 @@ int main(int argc, char** argv) {
             cout << "Usado por: " << aux->getUsadoPor()->GetNOMBRE() << endl;
             cout << "------------------------------------------------------------------" << endl;
             ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-            cout << "Display inicial del recorrido: " << ejemplo.getDisplay() << endl;
-            cout << "PORCENTAJE inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-            cout << "ESTADO inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
+            cout << "Display inicial de la moto: " << ejemplo.getDisplay() << endl;
+            cout << "PORCENTAJE BATERIA inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+            cout << "ESTADO inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
             cout << "------------------------------------------------------------------" << endl;
             ejemplo.terminarTrayecto();
             cout << "----------------------TERMINARTRAYECTO----------------------------" << endl;
             cout << "------------------------------------------------------------------" << endl;
             ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-            cout << "Display final del recorrido: " << ejemplo.getDisplay() << endl;
-            cout << "PORCENTAJE final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-            cout << "ESTADO final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
+            cout << "Display final de la moto: " << ejemplo.getDisplay() << endl;
+            cout << "PORCENTAJE BATERIA final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+            cout << "ESTADO final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
 
             vector<Moto> v = pruebaEco.localizaMotosSinBateria();
 

@@ -226,7 +226,6 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                 }
             }
         }
-        cout << "Total de clientes en el fichero (tabla hash): " << clientes.totalClientes() << endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         cerr << "No se puede abrir el fichero" << endl;
@@ -291,8 +290,6 @@ void EcoCityMoto::cargarMotos(std::string filename) {
             }
             getline(fe, linea); //Toma una linea del fichero
         }
-
-        std::cout << "Total de motos en el fichero: " << motos.size() << std::endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         std::cerr << "No se puede abrir el fichero" << std::endl;
