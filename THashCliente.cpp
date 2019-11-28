@@ -16,7 +16,7 @@
 /**
  * @brief constructor de la tabla hash
  **/
-THashCliente::THashCliente(int tam = 0) : v(tam, Entrada()) {
+THashCliente::THashCliente(int tam = 0, int _tipoHash) : v(tam, Entrada()) {
     tamf = tam;
     primorelativo = PrimoPorDebajo(tam);
     taml = 0;
@@ -24,6 +24,7 @@ THashCliente::THashCliente(int tam = 0) : v(tam, Entrada()) {
     totalColisiones = 0;
     colisionesultimoinsertado = 0;
     Cliente();
+    tipoHash = _tipoHash;
 }
 
 /**
@@ -59,7 +60,11 @@ bool THashCliente::inserta(const std::string& dni, Cliente &cli) {
     unsigned long clave = djb2((unsigned char*) dni.c_str());
 
     while (!encontrado) {
-        y = hash3(clave, i);
+        switch (tipoHash) {
+            case 1: y = hash(clave, i); break;
+            case 2: y = hash2(clave, i); break;
+            case 3: y = hash3(clave, i); break;
+        }
         if (v[y].marca == vacia) {
             if (p == -1)
                 final = y;

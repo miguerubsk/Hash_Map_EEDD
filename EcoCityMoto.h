@@ -22,6 +22,7 @@
 class EcoCityMoto {
 public:
     EcoCityMoto();
+    EcoCityMoto(int tam, bool entrena, int tipoHash);
     EcoCityMoto(const EcoCityMoto& orig);
     virtual ~EcoCityMoto();
     Moto* LocalizaMotoCercana(UTM &ubicacion);
@@ -43,6 +44,7 @@ public:
 private:
 
     unsigned int idUltimo;
+    bool entrena;
     std::vector<Moto> motos;
     THashCliente clientes;
     vector<string> getDNIClientes();

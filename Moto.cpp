@@ -95,6 +95,17 @@ void Moto::darAviso(){
     }
 }
 
+string Moto::mostrarEstado(){
+    string aux;
+    switch (estado){
+        case 0: aux = "BLOQUEADA"; break;
+        case 1: aux = "ACTIVADA"; break;
+        case 2: aux = "SIN BATERIA"; break;
+        case 3: aux = "ROTA"; break;
+    }
+    return aux;
+}
+
 /**
  * @brief funcion get del estado
  * @return devuelve el estado de la moto

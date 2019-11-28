@@ -58,102 +58,112 @@ void MaxMinLatLon(vector<Cliente> v, double &maxLon, double &maxLat, double &min
     }
 }
 
+void menu() {
+    cout << "========================MENÚ========================" << endl;
+    cout << "1 - Entrenamiento" << endl;
+    cout << "2 - Ejecución" << endl;
+    cout << "====================================================" << endl;
+    cout << "Elegir opcion: ";
+}
+
 int main(int argc, char** argv) {
+    int opcion=0;
     try {
-        //Creamos estructura y se cargan clientes y motos dentro
-        EcoCityMoto pruebaEco;
-        cout << "Factor de carga de la tablaHash: " << pruebaEco.GetClientes().carga() << endl;
-        cout << "Promedio de colisiones de la tabla hash: " << pruebaEco.GetClientes().colisionesMedias() << endl;
-        cout << "Máximo de colisiones: " << pruebaEco.GetClientes().maxcolisiones() << endl;
-        //Buscamos un cliente, una moto, la utiliza y la deja
-        Cliente ejemplo("77556358J", "miguel", "Miguerubsk", "Jaen", 37.3, 38.4, &pruebaEco);
-        if (pruebaEco.nuevoCliente(ejemplo)) {
-            cout << "-----SE HA AÑADIDO EL CLIENTE-----" << endl;
-            cout << "DNI: " << ejemplo.GetDNI() << endl;
-            cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
-            cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
-            cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
-            cout << "Nº colisiones al insertar: " << pruebaEco.GetClientes().GetColisionesultimoinsertado() << endl;
-            cout << "---------------------------------" << endl;
+        menu();
+        cin >> opcion;
+        if (opcion == 1) {
+            cout << "Entrenando...." << endl;
+            int tams[] = {16493, 16573, 16063, 16747};
+            for (int i = 0; i < 4; ++i) {
+                for (int j = 1; j <= 3; ++j) {
+                    EcoCityMoto entrenaEco(tams[i], true, j);
+                    cout << "==================================================================" << endl;
+                    cout << "Probando tamaño: " << tams[i] << endl;
+                    cout << "Usando función hash número " << j << endl;
+                    cout << "Factor de carga de la tabla Hash: " << entrenaEco.GetClientes().carga() << endl;
+                    cout << "Promedio de colisiones de la tabla Hash: " << entrenaEco.GetClientes().colisionesMedias() << endl;
+                    cout << "Máximo de colisiones: " << entrenaEco.GetClientes().maxcolisiones() << endl;
+                }
+            }
         } else {
-            cout << "-----NO SE HA AÑADIDO EL CLIENTE-----" << endl;
-        }
+            //Creamos estructura y se cargan clientes y motos dentro
+            EcoCityMoto pruebaEco;
+            cout << "Factor de carga de la tablaHash: " << pruebaEco.GetClientes().carga() << endl;
+            cout << "Promedio de colisiones de la tabla hash: " << pruebaEco.GetClientes().colisionesMedias() << endl;
+            cout << "Máximo de colisiones: " << pruebaEco.GetClientes().maxcolisiones() << endl;
+            //Buscamos un cliente, una moto, la utiliza y la deja
+            Cliente ejemplo("77556358J", "miguel", "Miguerubsk", "Jaen", 37.3, 38.4, &pruebaEco);
+            if (pruebaEco.nuevoCliente(ejemplo)) {
+                cout << "-----SE HA AÑADIDO EL CLIENTE-----" << endl;
+                cout << "DNI: " << ejemplo.GetDNI() << endl;
+                cout << "Nombre: " << ejemplo.GetNOMBRE() << endl;
+                cout << "Latitud: " << ejemplo.GetUTM().GetLatitud() << endl;
+                cout << "Longitud: " << ejemplo.GetUTM().GetLongitud() << endl;
+                cout << "Nº colisiones al insertar: " << pruebaEco.GetClientes().GetColisionesultimoinsertado() << endl;
+                cout << "---------------------------------" << endl;
+            } else {
+                cout << "-----NO SE HA AÑADIDO EL CLIENTE-----" << endl;
+            }
 
-        Cliente *clienteRef = pruebaEco.buscarCliente(ejemplo.GetDNI());
-        cout << "Cliente: " << clienteRef->GetDNI() << " Situado en: " <<
-                clienteRef->GetUTM().GetLatitud() << "," <<
-                clienteRef->GetUTM().GetLongitud() << std::endl;
-        Moto *m = clienteRef->buscarMotoCercana();
-        cout << "Moto mas cercana: " << m->GetId() << " situada en: " <<
-                m->getPosicion().GetLatitud() << "," << m->getPosicion().GetLongitud() << std::endl;
+            Cliente *clienteRef = pruebaEco.buscarCliente(ejemplo.GetDNI());
+            cout << "Cliente: " << clienteRef->GetDNI() << " Situado en: " <<
+                    clienteRef->GetUTM().GetLatitud() << "," <<
+                    clienteRef->GetUTM().GetLongitud() << std::endl;
+            Moto *m = clienteRef->buscarMotoCercana();
+            cout << "Moto mas cercana: " << m->GetId() << " situada en: " <<
+                    m->getPosicion().GetLatitud() << "," << m->getPosicion().GetLongitud() << std::endl;
 
-        clienteRef->desbloquearMoto(m);
-        cout << "Comienza Ruta n: " << pruebaEco.getIdUltimo() << std::endl;
-        std::vector<Moto> probar;
-        probar = pruebaEco.localizaMotosSinBateria();
-        cout << "Hay " << probar.size() << " motos sin bateria." << endl;
+            clienteRef->desbloquearMoto(m);
+            cout << "Comienza Ruta n: " << pruebaEco.getIdUltimo() << std::endl;
+            std::vector<Moto> probar;
+            probar = pruebaEco.localizaMotosSinBateria();
+            cout << "Hay " << probar.size() << " motos sin bateria." << endl;
 
-        clienteRef = pruebaEco.buscarCliente("26529258T");
-        if (clienteRef->GetDNI() == "26529258T") {
-            cout << "----------------------------ENCONTRADO----------------------------" << endl;
-            cout << "DNI: " << clienteRef->GetDNI() << endl;
-            cout << "Nombre: " << clienteRef->GetNOMBRE() << endl;
-            cout << "Latitud: " << clienteRef->GetUTM().GetLatitud() << endl;
-            cout << "Longitud: " << clienteRef->GetUTM().GetLongitud() << endl;
+            clienteRef = pruebaEco.buscarCliente("26529258T");
+            if (clienteRef->GetDNI() == "26529258T") {
+                cout << "----------------------------ENCONTRADO----------------------------" << endl;
+                cout << "DNI: " << clienteRef->GetDNI() << endl;
+                cout << "Nombre: " << clienteRef->GetNOMBRE() << endl;
+                cout << "Latitud: " << clienteRef->GetUTM().GetLatitud() << endl;
+                cout << "Longitud: " << clienteRef->GetUTM().GetLongitud() << endl;
+                cout << "------------------------------------------------------------------" << endl;
+            } else {
+                cout << "NO ESTA EL CLIENTE: " << endl;
+            }
+            Moto *aux;
+            aux = ejemplo.buscarMotoCercana();
+            ejemplo.desbloquearMoto(aux);
+            cout << "-------------------------------MOTO-------------------------------" << endl;
+            cout << "Matricula: " << aux->GetId() << endl;
+            cout << "Estado: " << aux->mostrarEstado() << endl;
+            cout << "Latitud: " << aux->getPosicion().GetLatitud() << endl;
+            cout << "Longitud: " << aux->getPosicion().GetLongitud() << endl;
+            cout << "Usado por: " << aux->getUsadoPor()->GetNOMBRE() << endl;
             cout << "------------------------------------------------------------------" << endl;
-        } else {
-            cout << "NO ESTA EL CLIENTE: " << endl;
+            ejemplo.mostrarMensaje(to_string(aux->getEstado()));
+            cout << "Display inicial de la moto: " << ejemplo.getDisplay() << endl;
+            cout << "PORCENTAJE BATERIA inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+            cout << "ESTADO inicial de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
+            cout << "------------------------------------------------------------------" << endl;
+            ejemplo.terminarTrayecto();
+            cout << "----------------------TERMINARTRAYECTO----------------------------" << endl;
+            cout << "------------------------------------------------------------------" << endl;
+            ejemplo.mostrarMensaje(to_string(aux->getEstado()));
+            cout << "Display final de la moto: " << ejemplo.getDisplay() << endl;
+            cout << "PORCENTAJE BATERIA final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
+            cout << "ESTADO final de la moto: " << ejemplo.getItinerario().back().GetVehiculos()->mostrarEstado() << endl;
+
+            vector<Moto> v = pruebaEco.localizaMotosSinBateria();
+
+            if (pruebaEco.eliminarCliente(ejemplo))
+                cout << "Borrando cliente: " << ejemplo.GetDNI() << endl;
+            if (!pruebaEco.nuevoCliente(ejemplo))
+                throw invalid_argument("Cliente NO insertado: el cliente ya existe o no entro en la Tabla");
+            cout << "Cliente con id: " << ejemplo.GetDNI() << " insertado correctamente" << std::endl;
+
+            pruebaEco.borrarMilCientes();
+            pruebaEco.redispersarTabla();
         }
-        Moto *aux;
-        aux = ejemplo.buscarMotoCercana();
-        ejemplo.desbloquearMoto(aux);
-        cout << "-------------------------------MOTO-------------------------------" << endl;
-        cout << "Matricula: " << aux->GetId() << endl;
-        cout << "Estado: " << aux->getEstado() << endl;
-        cout << "Latitud: " << aux->getPosicion().GetLatitud() << endl;
-        cout << "Longitud: " << aux->getPosicion().GetLongitud() << endl;
-        cout << "Usado por: " << aux->getUsadoPor()->GetNOMBRE() << endl;
-        cout << "-----SIGNIFICADO DEL ESTADO-----" << endl;
-        cout << "0 = BLOQUEADA" << endl;
-        cout << "1 = ACTIVA" << endl;
-        cout << "2 = SINBATERIA" << endl;
-        cout << "3 = ROTA" << endl;
-        cout << "--------------------------------" << endl;
-        cout << "------------------------------------------------------------------" << endl;
-        ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-        cout << "Display inicial del recorrido: " << ejemplo.getDisplay() << endl;
-        cout << "PORCENTAJE inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO inicial del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
-        cout << "------------------------------------------------------------------" << endl;
-        ejemplo.terminarTrayecto();
-        cout << "----------------------TERMINARTRAYECTO----------------------------" << endl;
-        cout << "------------------------------------------------------------------" << endl;
-        ejemplo.mostrarMensaje(to_string(aux->getEstado()));
-        cout << "Display final del recorrido: " << ejemplo.getDisplay() << endl;
-        cout << "PORCENTAJE final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getPorcentajeBateria() << endl;
-        cout << "ESTADO final del recorrido: " << ejemplo.getItinerario().back().GetVehiculos()->getEstado() << endl;
-
-        //            clienteRef->desbloquearMoto(m);
-        //            cout << "Comienza Ruta n: " << pruebaEco.getIdUltimo() << std::endl;
-        //
-        //        cout << "Desbloqueamos la Moto: " << m->GetId() << std::endl;
-        //        clienteRef->terminarTrayecto();
-        //        cout << "Fin de la Ruta: " << clienteRef->getItinerario().back().GetFecha().cadena() <<
-        //                ", Minutos: " << clienteRef->getItinerario().back().GetMinutos() <<
-        //                ", Id: " << clienteRef->getItinerario().back().GetVehiculos()->GetId() <<
-        //                ", Pos Fin: " << clienteRef->getItinerario().back().GetFin().GetLatitud() << "<-->" <<
-        //                clienteRef->getItinerario().back().GetFin().GetLongitud() << std::endl;
-
-        vector<Moto> v = pruebaEco.localizaMotosSinBateria();
-
-        if (pruebaEco.eliminarCliente(ejemplo))
-            cout << "Borrando cliente: " << ejemplo.GetDNI() << endl;
-        if (!pruebaEco.nuevoCliente(ejemplo))
-            throw invalid_argument("Cliente NO insertado: el cliente ya existe o no entro en la Tabla");
-        cout << "Cliente con id: " << ejemplo.GetDNI() << " insertado correctamente !! " << std::endl;
-
-        pruebaEco.borrarMilCientes();
-        pruebaEco.redispersarTabla();
     } catch (std::string &e) {
         cout << e << endl;
     } catch (std::invalid_argument &e) {

@@ -47,6 +47,7 @@ public:
     void setId(std::string id);
     void setPorcentajeBateria(float porcentajeBateria);
     float getPorcentajeBateria() const;
+    std::string mostrarEstado();
 
 
 private:

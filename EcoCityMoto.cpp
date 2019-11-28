@@ -23,15 +23,23 @@
 EcoCityMoto::EcoCityMoto() : idUltimo(0), motos(), clientes(16573) {
     cargarMotos("motos.txt");
     cargarClientes("clientes_v2.csv");
+    entrena = false;
     //cargarMotos("prueba.motos");
     //cargarClientes("prueba.clientes");
 }
 
-THashCliente& EcoCityMoto::getClientes(){
+EcoCityMoto::EcoCityMoto(int _tam, bool _entrena, int _tipoHash) : idUltimo(0), motos(), clientes(_tam, _tipoHash) {
+    cargarMotos("motos.txt");
+    cargarClientes("clientes_v2.csv");
+    //cargarMotos("prueba.motos");
+    //cargarClientes("prueba.clientes");
+}
+
+THashCliente& EcoCityMoto::getClientes() {
     return clientes;
 }
 
-vector<string> EcoCityMoto::getDNIClientes(){
+vector<string> EcoCityMoto::getDNIClientes() {
     return clientes.iterar();
 }
 
@@ -45,8 +53,10 @@ EcoCityMoto::EcoCityMoto(const EcoCityMoto& orig) : idUltimo(orig.idUltimo), mot
  * @brief destructor correspondiente de EcoCityMoto
  **/
 EcoCityMoto::~EcoCityMoto() {
-    guardaClientesItinerarios("prueba.clientes");
-    guardarMotos("prueba.motos");
+    if (!entrena) {
+        guardaClientesItinerarios("prueba.clientes");
+        guardarMotos("prueba.motos");
+    }
 }
 
 /**
@@ -215,8 +225,7 @@ void EcoCityMoto::cargarClientes(std::string filename) {
                     clientes.inserta(client.GetDNI(), client);
                 }
             }
-        }    
-        cout << "Total de clientes en el fichero (tabla hash): " << clientes.totalClientes() << endl;
+        }
         fe.close(); //Cerramos el flujo de entrada
     } else {
         cerr << "No se puede abrir el fichero" << endl;
@@ -268,9 +277,9 @@ void EcoCityMoto::cargarMotos(std::string filename) {
                 dlat = stod(latitud);
                 dlon = stod(longitud);
                 int aux = stoi(estado);
-                if(bateria==""){
-                    bateriaAux=rand()%100;
-                }else{
+                if (bateria == "") {
+                    bateriaAux = rand() % 100;
+                } else {
                     bateriaAux = stof(bateria);
                 }
 
@@ -281,8 +290,6 @@ void EcoCityMoto::cargarMotos(std::string filename) {
             }
             getline(fe, linea); //Toma una linea del fichero
         }
-
-        std::cout << "Total de motos en el fichero: " << motos.size() << std::endl;
         fe.close(); //Cerramos el flujo de entrada
     } else {
         std::cerr << "No se puede abrir el fichero" << std::endl;
@@ -291,9 +298,9 @@ void EcoCityMoto::cargarMotos(std::string filename) {
 
 Cliente* EcoCityMoto::buscarCliente(std::string dni) {
     Cliente *c;
-    if(clientes.busca(dni, c)){
+    if (clientes.busca(dni, c)) {
         return c;
-    }else{
+    } else {
         return 0;
     }
 }
@@ -304,9 +311,9 @@ Cliente* EcoCityMoto::buscarCliente(std::string dni) {
  * @return devuelve verdadero o falso segun si el cliente existe ya o no
  **/
 bool EcoCityMoto::nuevoCliente(Cliente& c) {
-    if(clientes.inserta(c.GetDNI(), c)){
+    if (clientes.inserta(c.GetDNI(), c)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -317,18 +324,18 @@ bool EcoCityMoto::nuevoCliente(Cliente& c) {
  * @return devuelve verdadero o falso segun si el cliente existe ya o no
  **/
 bool EcoCityMoto::eliminarCliente(Cliente& c) {
-    if(clientes.borracliente(c.GetDNI2())){
+    if (clientes.borracliente(c.GetDNI2())) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
-void EcoCityMoto::borrarMilCientes(){
+void EcoCityMoto::borrarMilCientes() {
     vector<string> DNIs = getDNIClientes();
     int i = 0;
-    
-    while (i<DNIs.size() && i < 1000){
+
+    while (i < DNIs.size() && i < 1000) {
         Cliente cli(DNIs[i]);
         eliminarCliente(cli);
         i++;
@@ -336,7 +343,7 @@ void EcoCityMoto::borrarMilCientes(){
     cout << "Borrados 1000 clientes." << endl;
 }
 
-void EcoCityMoto::redispersarTabla(){
+void EcoCityMoto::redispersarTabla() {
     cout << "Factor de Carga de la tablaHash Antes de la redispersion: " << clientes.carga() << endl;
     clientes.redispersar(14737);
     cout << "Factor de Carga de la tablaHash Despues de la redispersion: " << clientes.carga() << endl;
@@ -366,22 +373,22 @@ void EcoCityMoto::guardaClientesItinerarios(std::string fileName) {
     if (fs.good()) {
         vector<string> DNI = getDNIClientes();
         fs << "NIF;clave;nomape;dirección;latitud;longitud;nIti" << endl;
-        for (int i = 0; i< DNI.size(); ++i) {
+        for (int i = 0; i < DNI.size(); ++i) {
             total++;
             Cliente *cli;
             clientes.busca(DNI[i], cli);
 
             list<Itinerario> r = cli->getItinerario();
             list<Itinerario>::iterator it2 = r.begin();
-            fs      << cli->GetDNI() << ";" 
-                    << cli->getPass() << ";" 
-                    << cli->GetNOMBRE() << ";" 
-                    << cli->GetDIRECCION() << ";" 
-                    << cli->getPosicion().GetLatitud() << ";" 
-                    << cli->getPosicion().GetLongitud() << ";" 
+            fs << cli->GetDNI() << ";"
+                    << cli->getPass() << ";"
+                    << cli->GetNOMBRE() << ";"
+                    << cli->GetDIRECCION() << ";"
+                    << cli->getPosicion().GetLatitud() << ";"
+                    << cli->getPosicion().GetLongitud() << ";"
                     << cli->getItinerario().size() << endl;
             while (it2 != r.end()) {
-                fs      << it2->GetId() << ";" //Se escribe el id del 
+                fs << it2->GetId() << ";" //Se escribe el id del 
                         //Se escribe la fecha
                         << it2->GetFecha().verDia() << ";" //Se escribe el dia
                         << it2->GetFecha().verMes() << ";" //se escribe el mes
@@ -407,8 +414,6 @@ void EcoCityMoto::guardaClientesItinerarios(std::string fileName) {
         std::cerr << "No se puede crear el fichero" << endl;
     }
 }
-
-
 
 /**
  * @brief funciom get para el idUltimo
@@ -453,24 +458,23 @@ THashCliente EcoCityMoto::GetClientes() const {
     return clientes;
 }
 
-
-void EcoCityMoto::guardarMotos(string fileName){
+void EcoCityMoto::guardarMotos(string fileName) {
     ofstream fichero;
-    
+
     fichero.open(fileName, ofstream::trunc);
-    
-    if(fichero.good()){
+
+    if (fichero.good()) {
         fichero << "matricula;estado;lat;long;porcentajeBateria" << endl;
-        for(int i = 0; i < motos.size(); ++i){
+        for (int i = 0; i < motos.size(); ++i) {
             fichero << motos[i].GetId() << ";" //Se guarda el Id de la moto
                     << to_string(motos[i].getEstado()) << ";" //Se guarda el estado de la moto
                     //Se guarda la posición de la moto
                     << to_string(motos[i].getPosicion().GetLatitud()) << ";" //Se guarda la latitud
                     << to_string(motos[i].getPosicion().GetLongitud()) << ";" //Se guarda la longitud
-                    << to_string((int)motos[i].getPorcentajeBateria())<<endl; //Se guarda el nivel de batería de la moto
+                    << to_string((int) motos[i].getPorcentajeBateria()) << endl; //Se guarda el nivel de batería de la moto
         }
         fichero.close();
-    }else{
+    } else {
         std::invalid_argument("No se puede abrir el fichero");
     }
 }
