@@ -6,7 +6,7 @@
 
 /* 
  * File:   THashCliente.h
- * Author: Fernando
+ * Author: Fernando Jiménez Quesada y Miguel González García
  *
  * Created on November 18, 2019, 4:17 PM
  */
@@ -39,17 +39,21 @@ class THashCliente {
 private:
     std::vector<Entrada> v;
     unsigned int tamf, taml, maxcoli, totalColisiones, primorelativo, colisionesultimoinsertado;
-
     int PrimoPorDebajo(unsigned x);
-
     bool EsPrimo(unsigned n);
 
+        /**
+     * @brief dispersion cuadrática del hash
+     **/
     inline unsigned int hash(unsigned long int clave, int i) {
         unsigned long posicionfinal;
         posicionfinal = (clave + (i * i)) % tamf;
         return posicionfinal;
     };
 
+        /**
+     * @brief primera dispersion doble del hash
+     **/
     inline unsigned int hash2(unsigned long int clave, int i) {
         unsigned long posicion, posicionfinal;
         posicion = clave % tamf;
@@ -57,6 +61,9 @@ private:
         return posicionfinal;
     }
 
+        /**
+     * @brief segunda dispersion doble del hash
+     **/
     unsigned hash3(unsigned clave, int i) {
         unsigned long posicion, posicionfinal;
 
