@@ -38,7 +38,7 @@ public:
 class THashCliente {
 private:
     std::vector<Entrada> v;
-    unsigned int tamf, taml, maxcoli, totalColisiones, primorelativo, colisionesultimoinsertado;
+    unsigned int tamf, taml, maxcoli, totalColisiones, primorelativo, colisionesultimoinsertado, tipoHash;
     int PrimoPorDebajo(unsigned x);
     bool EsPrimo(unsigned n);
 
@@ -81,7 +81,7 @@ private:
     }
 
 public:
-    THashCliente(int tam);
+    THashCliente(int tam, int _tipoHash = 3);
     ~THashCliente();
     bool inserta(const std::string& dni, Cliente &cli);
     bool borra(long int clave);
