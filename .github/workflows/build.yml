@@ -1,0 +1,17 @@
+name: Build and Run
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build with g++
+      run: g++ main.cpp -o hash_map -std=c++11
+    - name: Run binary
+      run: ./vectores || true  # Si quieres probar la ejecución (opcional)
