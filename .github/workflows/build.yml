@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build with g++
-      run: g++ main.cpp -o hash_map -std=c++11
+      run: g++ *.cpp -o hash_map -std=c++11
     - name: Run binary
       run: ./vectores || true  # Si quieres probar la ejecución (opcional)
